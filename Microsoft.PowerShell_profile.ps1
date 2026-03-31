@@ -7,7 +7,7 @@
 # code $PROFILE  
 # mude o usuário da função código 'function code {' conforme instruções da última função ao final do código
 # copie e cole todos os códigos deste arquivo
-# ao salvar o arquivo, selecione 'salvar como', no 'tipo' selecione 'Todo tipo de arquivo' e nome do arquivo 'Microsoft.PowerShell_profile.ps1'
+# ao salvar o arquivo, selecione 'salvar como', no 'tipo' selecione 'Todo tipo de arquivo' e nome do arquivo 'Microsoft.PowerShell_profile.ps1' e no campo "Codificação" selecione "UTF-8 com BOM"
 # no PS digite . $PROFILE 
 # teste digitando z+space+tab
 # aparecerá menu de "snippets"
@@ -36,6 +36,38 @@ function z {
 		"nav_volta_home" { Set-Location ~ }
         "sys_bateria" { Get-WmiObject Win32_Battery | Format-Table Caption, EstimatedChargeRemaining }
         "sys_bluetooth" { Get-WmiObject Win32_PnPEntity | Where-Object {$_.PNPClass -eq "Bluetooth"} | Format-Table Caption }
+		"sys_diagnostico_bluetooth" {
+			Write-Host "`n=== DIAGNOSTICO COMPLETO BLUETOOTH ===" -ForegroundColor Cyan
+			
+			# 1. Hardware
+			Write-Host "`n1. Dispositivos Bluetooth no hardware:" -ForegroundColor Yellow
+			$btDevices = Get-PnpDevice | Where-Object {$_.FriendlyName -like "*bluetooth*" -or $_.Class -eq "Bluetooth"}
+			if ($btDevices) {
+				$btDevices | Format-Table FriendlyName, Status, Class -AutoSize
+			} else {
+				Write-Host "NENHUM dispositivo Bluetooth encontrado!" -ForegroundColor Red
+			}
+			
+			# 2. Servicos
+			Write-Host "`n2. Servicos Bluetooth:" -ForegroundColor Yellow
+			$btServices = Get-Service | Where-Object {$_.Name -like "*bluetooth*"}
+			if ($btServices) {
+				$btServices | Format-Table Name, Status, StartType -AutoSize
+			} else {
+				Write-Host "NENHUM servico Bluetooth encontrado!" -ForegroundColor Red
+			}
+			
+			# 3. Adaptadores de rede
+			Write-Host "`n3. Adaptadores de rede (possiveis dispositivos Bluetooth):" -ForegroundColor Yellow
+			Get-PnpDevice | Where-Object {$_.Class -eq "Net"} | Select-Object FriendlyName, Status | Format-Table -AutoSize
+			
+			# 4. Dispositivos ocultos
+			Write-Host "`n4. Dispositivos ocultos (desabilitados):" -ForegroundColor Yellow
+			Get-PnpDevice -PresentOnly | Where-Object {$_.Class -eq "Bluetooth" -or $_.FriendlyName -like "*bluetooth*"} | Format-Table FriendlyName, Status
+			
+			Write-Host "`n=== FIM DIAGNOSTICO ===" -ForegroundColor Cyan
+			Write-Host "`nSe nao apareceu NENHUM dispositivo Bluetooth, seu PC nao tem hardware Bluetooth." -ForegroundColor Magenta
+		}
         "sys_bios" { Get-WmiObject Win32_BIOS | Select-Object -ExpandProperty SMBIOSBIOSVersion }
         "sys_cpu" { Get-WmiObject Win32_Processor | Format-Table Name, MaxClockSpeed, NumberOfCores -AutoSize }
 		"sys_discoinfo" { Get-WmiObject Win32_DiskDrive | Format-Table DeviceID, Caption, @{Label="Size(GB)";Expression={[math]::round($_.Size/1GB,2)}}, MediaType }
@@ -61,7 +93,7 @@ function z {
         "sys_usuarios" { Get-LocalUser | Format-Table Name, Enabled }
 
 	# ===== EXTENSÕES =====
-	"instal_extens_inic" {
+	"sys_inst_exten_inic_vscode" {
 
 	    Write-Host ""
 	    Write-Host "Instalando extensoes do VS Code..."
@@ -115,7 +147,7 @@ function z {
 	    Write-Host ""
 	}
 
-	"instal_extens_py_sql" {
+	"sys_inst_exten_py_sql" {
 
 	    Write-Host ""
 	    Write-Host "Instalando extensoes Python + SQL..."
@@ -158,6 +190,64 @@ function z {
 	    Write-Host "Instalacao concluida!"
 	    Write-Host ""
 	}
+
+	# ===== VERIFICAR PYTHON =====
+		"sys_verificar_python" {
+    Write-Host "`n=== VERIFICAÇÃO DO AMBIENTE PYTHON ===" -ForegroundColor Cyan
+    
+    # Python
+    Write-Host "`nPython version:" -ForegroundColor Yellow
+    python --version 2>&1
+    
+    # Pip
+    Write-Host "`nPip version:" -ForegroundColor Yellow
+    pip --version
+    
+    # Pacotes importantes
+    Write-Host "`nPacotes instalados (principais):" -ForegroundColor Yellow
+    pip list | findstr -i "pandas pyodbc sqlalchemy dotenv numpy"
+    
+    # PATH do Python
+    Write-Host "`nLocalização do Python:" -ForegroundColor Yellow
+    where.exe python
+    
+    Write-Host "`n=== FIM ===" -ForegroundColor Cyan
+}
+
+		# ===== INSTALAR PYTHON =====
+"sys_instalar_python" {
+
+    Write-Host ""
+    Write-Host "=== INSTALACAO DO AMBIENTE PYTHON ==="
+    Write-Host ""
+
+    # Instalar Python via winget (recomendado)
+    Write-Host "Instalando Python..."
+    winget install Python.Python.3.12
+
+    # Atualizar pip
+    Write-Host "Atualizando pip..."
+    python -m pip install --upgrade pip
+
+    # Instalar bibliotecas essenciais
+    Write-Host "Instalando pacotes Python..."
+    pip install pyodbc pandas SQLAlchemy python-dotenv
+
+    # Instalar driver ODBC
+    Write-Host "Instalando ODBC Driver 18..."
+    Start-BitsTransfer -Source "https://go.microsoft.com/fwlink/?linkid=2249006" -Destination "$env:TEMP\msodbcsql.msi"
+    Start-Process -Wait -FilePath msiexec -ArgumentList "/i `"$env:TEMP\msodbcsql.msi`" /quiet IACCEPTMSODBCSQLLICENSETERMS=YES"
+
+    # Instalar requirements se existir
+    if (Test-Path "requirements.txt") {
+        Write-Host "Instalando requirements.txt..."
+        pip install -r requirements.txt
+    }
+
+    Write-Host ""
+    Write-Host "=== INSTALACAO CONCLUIDA ==="
+    Write-Host ""
+}
 
 		# ===== COMANDOS =====
         "comandos_vscode" {
@@ -203,14 +293,15 @@ Register-ArgumentCompleter -CommandName z -ParameterName comando -ScriptBlock {
     param($commandName, $parameterName, $wordToComplete)
 
     $comandos = @(
-        "comandos_vscode","help","nav_buscar_por_nome","nav_desktop","nav_downloads","nav_home","nav_listar","nav_listar_ocultos",
-		"nav_listar_so_pastas","nav_listar_so_arquivos","nav_listar_recursivo","nav_volta_1_diretorio","nav_volta_2_diretorios",
-		"nav_volta_desktop","nav_volta_home","sys_bateria","sys_bios","sys_bluetooth","sys_cpu","sys_disco_espaco","sys_discoinfo",
-		"sys_discos","sys_gpu","sys_impressoras","sys_ip","sys_ip_geral","sys_memoria_slots","sys_memorias","sys_modelo_pc",
-		"nav_onde_estou?","sys_particoes","sys_placa_mae","sys_programas_instalados","sys_rede","sys_sistema_operacional",
-		"sys_abre_snippet_notepad","sys_abre_snippet_vscode","sys_atualizar_snippet","sys_bateria","sys_bios","sys_bluetooth",
-		"sys_som","sys_usb","sys_usuarios","instal_extens_inic","instal_extens_py_sql"
-    )
+    "comandos_vscode","help","nav_buscar_por_nome","nav_desktop","nav_downloads","nav_home","nav_listar","nav_listar_ocultos",
+    "nav_listar_so_pastas","nav_listar_so_arquivos","nav_listar_recursivo","nav_volta_1_diretorio","nav_volta_2_diretorios",
+    "nav_volta_desktop","nav_volta_home","nav_onde_estou?",
+    "sys_bateria","sys_bios","sys_bluetooth","sys_diagnostico_bluetooth","sys_cpu","sys_disco_espaco","sys_discoinfo","sys_discos","sys_gpu",
+    "sys_impressoras","sys_ip","sys_ip_geral","sys_memoria_slots","sys_memorias","sys_modelo_pc","sys_particoes",
+    "sys_placa_mae","sys_programas_instalados","sys_rede","sys_sistema_operacional","sys_som","sys_usb","sys_usuarios",
+    "sys_abre_snippet_notepad","sys_abre_snippet_vscode","sys_atualizar_snippet",
+    "sys_inst_exten_inic_vscode","sys_inst_exten_py_sql","sys_verificar_python","sys_instalar_python"
+)
 
     $comandos | Where-Object { $_ -like "$wordToComplete*" } |
     ForEach-Object {
