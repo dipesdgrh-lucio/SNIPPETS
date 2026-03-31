@@ -111,11 +111,12 @@
     "scope": "sql",
     "prefix": "ZSYSCOLVSAS",
     "body": [
-      "${4:SELECT                                    }",    
-      "COLUMN_NAME AS COLUNA",
+      "${5:USE ${1:SAS}                                    }",
+      "SELECT",    
+      "   COLUMN_NAME AS COLUNA",
       "FROM INFORMATION_SCHEMA.COLUMNS",
-      "WHERE TABLE_SCHEMA = '${1:02}2026'      ${3:-- schema separado sem colchetes [022026] = 022026}",
-      "  AND TABLE_NAME = '${2:pap_ua}'  ${3:-- nome da tabela sem colchetes}",
+      "WHERE TABLE_SCHEMA = '${2:02}2026' ${4:-- schema separado sem colchetes [022026] = 022026}",
+      "  AND TABLE_NAME = '${3:pap_ua}'  ${4:-- nome da tabela sem colchetes}",
       "ORDER BY ORDINAL_POSITION"
       ],
     "description": "TERMINAL COM COLUNAS_NA_VERTICAL_SAS"
@@ -789,6 +790,22 @@
 	  "WHERE A.CPF = B.CPF)"
     ],
     "description": "COMPARAR_DADOS_DE_TABELAS_DIFERENTES"
+  },
+
+  // INSERIR_DADOS_EM_TEMPORARIA
+  "INSERIR_DADOS_EM_TEMPORARIA": {
+    "scope": "sql",
+    "prefix": "ZDDINSTEMP",
+    "body": [
+	  "DROP TABLE IF EXISTS #${1:BASE_TEMP}",
+    "CREATE TABLE #${1:BASE_TEMP} (",
+	  "    #${2:COLUNA} ${3:VARCHAR}(${4:100})",
+	  "INSERT INTO #${1:BASE_TEMP} (#${2:COLUNA}) VALUES",
+	  "${5:('DADO1'),}",
+    "${5:('DADO2'),}",
+	  "${5:('ETC...'),}"
+    ],
+    "description": "INSERIR_DADOS_EM_TEMPORARIA"
   },
 
   // CALCULO_DE_DATA
