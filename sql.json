@@ -896,7 +896,7 @@
         "    FROM CEPEA_SAS.dbo.[00_UA${1:03}26] -- Filtro de UA",
         ") "
     ],
-    "description": "SAS_PAPUA_022026"
+    "description": "SAS_PAPUA"
 },
 
 // SAS_TB_UA_ALOCACAO_022026
@@ -927,7 +927,7 @@
         "FROM SAS.[${1:03}2026].[TB_UA_ALOCACAO]",
         "WHERE FL_SITUACAO <> 'I' -- FILTRO INATIVOS"
     ],
-    "description": "SAS_TB_UA_ALOCACAO_022026"
+    "description": "SAS_TB_UA_ALOCACAO"
 },
 
 // SAS_TB_TURMA_022026
@@ -1079,7 +1079,7 @@
         " AND QTD_ALUNO_ATIVO > 0",
         " AND CD_DURACAO <> 2 -- Exclusao de Classes de EJA e Itinerario Formativo do 2 Semestre - Verificar sempre no inicio do semestre"
     ],
-    "description": "SAS_TB_TURMA_022026"
+    "description": "SAS_TB_TURMA"
 },
 
 // SAS_TB_ESCOLAS
@@ -1116,7 +1116,7 @@
         "WHERE CD_SITUACAO = '1' -- ATIVAS",
         "AND CD_REDE_ENSINO = '1' -- ESTADUAIS"
     ],
-    "description": "SAS_TB_ESCOLA_032026"
+    "description": "SAS_TB_ESCOLA"
 },
 
 // SAS_TB_FUNCIONAL
@@ -1201,7 +1201,7 @@
         "FROM SAS.[${1:03}2026].TB_FUNCIONAL",
         "WHERE CD_SIT_REG = 'A' -- A = ATIVO, E = EXCLUÍDO , F = falecido, 0 = erro, P CATEGORIA P, I = INATIVO, B = BLOQUEADO"
     ],
-    "description": "SAS_TB_FUNCIONAL_032026"
+    "description": "SAS_TB_FUNCIONAL"
 },
 
 // SAS_EDUCA_PESSOAL
@@ -1321,7 +1321,7 @@
         "      DT_ULT_ATUALIZ       ,",
         "      CALC_CD_CARGO_FUNCAO ,",
         "      DS_FUNDAMENTO_LEGAL  ",
-        "FROM SAS.[022026].TB_AFASTAMENTO",
+        "FROM SAS.[${1:03}2026].TB_AFASTAMENTO",
         "ORDER BY NR_CPF"
     ],
     "description": "SAS_TB_AFASTAMENTO"
@@ -1369,10 +1369,106 @@
         "      DT_ALTER              ,",
         "      ID_USER_ALTER         ,",
         "      CD_ENFASE             ",
-        "FROM SAS.[022026].TB_ESCOLARIDADE",
+        "FROM SAS.[${1:03}2026].TB_ESCOLARIDADE",
         "ORDER BY NR_CPF"
     ],
     "description": "SAS_TB_ESCOLARIDADE"
+},
+
+// SAS_TB_CURSO
+"SAS_TB_CURSO": {
+    "scope": "sql",
+    "prefix": "ZSASTBCURSO",
+    "body": [
+        "SELECT",
+        "     CD_CURSO                ,",
+        "     NM_CURSO                ,",
+        "     FL_ATIVO -- A = ATIVO, E = EXCLUIDO, I = INATIVO",
+        "FROM SAS.[${1:03}2026].TB_CURSO",
+        "WHERE FL_ATIVO = 'A'",
+        "ORDER BY NM_CURSO"
+    ],
+    "description": "SAS_TB_CURSO"
+},
+
+// SAS_TB_TIPO_NIVEL_CURSO
+"SAS_TB_TIPO_NIVEL_CURSO": {
+    "scope": "sql",
+    "prefix": "ZSASTBTIPONIVCURSO",
+    "body": [
+        "SELECT",
+        "     CD_TIPO_NIVEL_CURSO,",
+        "     NM_TIPO_NIVEL_CURSO,",
+        "     DT_VIGENCIA_INICIAL,",
+        "     FL_ATIVO           ,",
+        "     NR_HORAS           ,",
+        "     FL_ITEM_INVENT     ",
+        "FROM SAS.[072020].TB_TIPO_NIVEL_CURSO"
+    ],
+    "description": "SAS_TB_TIPO_NIVEL_CURSO"
+},
+
+// SAS_TB_FREQUENCIA_FALTA
+"SAS_TB_FREQUENCIA_FALTA": {
+    "scope": "sql",
+    "prefix": "ZSASTBFREQFALT",
+    "body": [
+        "SELECT",
+        "     NR_CPF          ,",
+        "     NR_DI           ,",
+        "     ANO_REF         ,",
+        "     MES_REF         ,",
+        "     CD_DIA          ,",
+        "     NR_PROV         ,",
+        "     CD_UNID_ADM_FREQ,",
+        "     CD_CARGO_FUNCAO ,",
+        "     CD_CATEG_SERV   ,",
+        "     CD_FREQ         ,",
+        "     CD_FREQ_AFAST   ,",
+        "     FLG_TIPO        ,",
+        "     DT_INCL         ,",
+        "     DT_PUBLI_DOE    ,",
+        "     CD_LOCAL        ,",
+        "     CD_TIP_LOCAL    ,",
+        "     DT_ULT_ATUALIZ  ,",
+        "     FL_PROF_PRES    ",
+        "FROM SAS.[${1:03}2026].TB_FREQUENCIA_FALTA"
+    ],
+    "description": "SAS_TB_FREQUENCIA_FALTA"
+},
+
+// SAS_TB_FREQUENCIA
+"SAS_TB_FREQUENCIA": {
+    "scope": "sql",
+    "prefix": "ZSASTBFREQGERAL",
+    "body": [
+        "SELECT",
+        "     NR_CPF             ,",
+        "     NR_DI              ,",
+        "     ANO_REF            ,",
+        "     MES_REF            ,",
+        "     NR_RG              ,",
+        "     NR_REG_SIST        ,",
+        "     NR_PROV            ,",
+        "     CD_CATEG_SERV      ,",
+        "     CD_IND_CARGO_FUNCAO,",
+        "     CD_CARGO_FUNCAO    ,",
+        "     CD_UNID_ADM_FREQ   ,",
+        "     CD_FL_INCL         ,",
+        "     CD_FL_NORMAL       ,",
+        "     CD_UNID_ORCAM      ,",
+        "     CD_UNID_DESP       ,",
+        "     CD_JORN            ,",
+        "     CD_SIT_ESPEC_1     ,",
+        "     DT_INIC_1          ,",
+        "     DT_FIM_1           ,",
+        "     CD_SIT_ESPEC_2     ,",
+        "     DT_INIC_2          ,",
+        "     DT_FIM_2           ,",
+        "     DT_INCL            ",
+        "FROM SAS.[${1:03}2026].TB_FREQUENCIA"
+    ],
+    "description": "SAS_TB_FREQUENCIA"
 },
 
 // CONTAGEH_TB_FUNCIONAL_CONTAGEH
@@ -1460,6 +1556,19 @@
     "description": "CONTAGEH_TB_FUNCIONAL"
 },
 
+// SAS_TB_CAD_FREQUENCIA
+"SAS_BFE": {
+    "scope": "sql",
+    "prefix": "ZSASBFE",
+    "body": [
+        "SELECT",
+        "     CD_FREQ,",
+        "     DS_FREQ",
+        "FROM CONTAGEH..TB_CAD_FREQUENCIA"
+    ],
+    "description": "CONTAGEH_TB_CAD_FREQUENCIA"
+},
+
 // DESENV_DBO_DISCIPLINA
 "DESENV_DBO_DISCIPLINA": {
     "scope": "sql",
@@ -1469,6 +1578,17 @@
         "FROM DESENV.DBO.DISCIPLINA"
     ],
     "description": "DESENV_DBO_DISCIPLINA"
+},
+
+// SAS_TB_CURSO_HABILITACAO
+"SAS_TB_CURSO_HABILITACAO": {
+    "scope": "sql",
+    "prefix": "ZSASTBCURSHAB",
+    "body": [
+        "SELECT *",
+        "FROM QUALIFICACAO..TB_CURSO_HABILITACAO"
+    ],
+    "description": "QUALIFICACAO_TB_CURSO_HABILITACAO"
 }
 
 }
