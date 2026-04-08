@@ -1128,7 +1128,7 @@
         "      NR_CPF AS CPF               ,",
         "      NR_DI AS DI                 ,",
         "      NR_RG AS RG                 ,",
-        "      CD_SIT_REG AS SITUACAO -- A = ATIVO, E = EXCLUÍDO , F = falecido, 0 = erro, P CATEGORIA P, I = INATIVO, B = BLOQUEADO     ,",
+        "      CD_SIT_REG AS SITUACAO, -- A = ATIVO, E = EXCLUÍDO , F = falecido, 0 = erro, P CATEGORIA P, I = INATIVO, B = BLOQUEADO     ,",
         "      DT_SIT                      ,",
         "      NR_QUIN_ADIC_TS             ,",
         "      DT_VIG_ULT_QUIN_ATS         ,",
