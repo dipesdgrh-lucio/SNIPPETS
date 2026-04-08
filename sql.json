@@ -2088,6 +2088,22 @@
         "FROM TAB_GRUPO_NIVEL_CURSO${1:03}26"
     ],
     "description": "CEPEA_TAB_GRUPO_NIVEL_CURSO"
+},
+
+// CEPEA_TB_ID_INTERNO_SERV
+"CEPEA_TB_ID_INTERNO_SERV": {
+    "scope": "sql",
+    "prefix": "ZCPEAID",
+    "body": [
+        "USE CEPEA_SAS",
+        "",
+        "SELECT",
+        "     ID,",
+        "     CPF         ",
+        "FROM TB_ID_INTERNO_SERV",
+        "ORDER BY ID"
+    ],
+    "description": "CEPEA_TB_ID_INTERNO_SERV"
 }
 
 }
