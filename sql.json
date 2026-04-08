@@ -2084,7 +2084,7 @@
         "SELECT",
         "     COD       ,",
         "     EVENTO    ,",
-        "     COD-EVENTO   ",
+        "     [COD-EVENTO]   ",
         "FROM TAB_CODBFE"
     ],
     "description": "CEPEA_TAB_CODBFE"
