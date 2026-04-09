@@ -174,7 +174,7 @@
     "prefix": "ZTOP",
     "body": [
       "${2:SELECT TOP 10 *      }",
-      "FROM CTG${1:02}26"
+      "FROM ${1:CTG0226}"
     ],
     "description": "TOP 10"
   },
