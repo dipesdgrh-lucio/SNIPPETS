@@ -527,39 +527,24 @@
     "scope": "sql",
     "prefix": "ZCOUNT",
     "body": [
-      "SELECT ",
-      "     ${1:coluna1},",
-      "     COUNT(*) AS ${2:TOTAL}",  
-      "FROM ${3:BASE}", 
-      "GROUP BY ${1:coluna1}",
-      "ORDER BY ${2:TOTAL} DESC"
+      "COUNT(*) AS ${1:TOTAL} ${2:-- SUM(* OU COLUNA), AVG(* OU COLUNA), MAX(* OU COLUNA), MIN(* OU COLUNA) VEJA MAIS EM ZGROUP}",  
       ],
     "description": "CONTAR E AGRUPAR"
   },	
 
-  // COLA_GROUP_BY
-  "COLA_GROUP_BY": {
+  // GROUP_BY
+  "GROUP_BY": {
       "scope": "sql",
-      "prefix": "ZCOLAGROUP",
+      "prefix": "ZGROUP",
       "body": [
-          "/*",
-          "Função                           O que faz                                 Tipo de dado",
-          "-------------------------------- ---------------------------------------- -------------",
-          "COUNT(*)                         Conta todas as linhas                     INT/BIGINT",
-          "COUNT(coluna)                    Conta valores não NULL                    INT/BIGINT",
-          "COUNT(DISTINCT coluna)           Conta valores únicos não NULL             INT/BIGINT",
-          "SUM(coluna)                      Soma dos valores                          NUMÉRICO",
-          "AVG(coluna)                      Média dos valores                         NUMÉRICO",
-          "MAX(coluna)                      Maior valor                               QUALQUER",
-          "MIN(coluna)                      Menor valor                               QUALQUER",
-          "STDEV(coluna)                    Desvio padrão (amostra)                   FLOAT",
-          "STDEVP(coluna)                   Desvio padrão (população)                 FLOAT",
-          "VAR(coluna)                      Variância (amostra)                       FLOAT",
-          "VARP(coluna)                     Variância (população)                     FLOAT",
-          "STRING_AGG(coluna, separador)    Concatena textos                          STRING",
-          "*/"
+      "${1:SELECT}",
+      "     ${1:COLUNA1,}",
+      "     COUNT(*) AS TOTAL -- SUM(* OU COLUNA), AVG(* OU COLUNA), MAX(* OU COLUNA), MIN(* OU COLUNA)",  
+      "${1:FROM BASE}", 
+      "${1:GROUP BY COLUNA1}",
+      "${1:ORDER BY TOTAL DESC}"
       ],
-      "description": "COLA DE COMANDOS GROUP BY"
+      "description": "GROUP_BY"
   },
 
 	//QUANTIDADE_DE_CARACTERES
