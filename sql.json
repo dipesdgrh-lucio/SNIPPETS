@@ -258,6 +258,7 @@
       "   TABELA,",
       "   --COLUNA,",
       "   --END_COMPLETO",
+      "   COUNT(*) AS TOTAL",
       "FROM [dbo].[00_MAPEAMENTO_BD${1:03}26]",
       "WHERE TABELA LIKE '%${2:NOME}%'",
       "AND BD = 'CEPEA_SAS'",
