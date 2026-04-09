@@ -547,7 +547,7 @@
       "description": "GROUP_BY"
   },
 
-    // HAVING
+  // HAVING
   "HAVING": {
       "scope": "sql",
       "prefix": "ZHAVING",
@@ -564,6 +564,40 @@
       ],
       "description": "HAVING"
   },
+
+  // TEMPORARIA
+  "TEMPORARIA": {
+      "scope": "sql",
+      "prefix": "ZTEMP",
+      "body": [
+      "DROP TABLE IF EXISTS #${1:BASE1}",
+      "SELECT",
+      "     ${2:CPF}", 
+      "INTO #${1:BASE1}",
+      "FROM ${3:BASE2}"
+      ],
+      "description": "TEMPORARIA"
+  },
+
+  // NULL
+  "NULL": {
+      "scope": "sql",
+      "prefix": "ZNULL",
+      "body": [
+      "ISNULL(${1:COLUNA},'') AS ${2:NOVO_NOME1},"
+      ],
+      "description": "NULL"
+  },
+
+  //NULIFICA
+	"NULIFICA": {
+		"scope": "sql",
+		"prefix": "ZNULLIF",
+		"body": [
+			"SELECT NULLIF(${1:COLUNA}, 25) AS SEM_25", 
+		],
+		"description": "NULIFICA"
+	},
 
 	//QUANTIDADE_DE_CARACTERES
 	"QUANTIDADE_DE_CARACTERES": {
@@ -819,16 +853,6 @@
 		"description": "IF"
 	},
 
-	//NULIFICA
-	"NULIFICA": {
-		"scope": "sql",
-		"prefix": "ZNULLIF",
-		"body": [
-			"SELECT NULLIF(${1:COLUNA}, 25) AS SEM_25", 
-		],
-		"description": "NULIFICA"
-	},
-
 	// CASE_WHEN
   "CASE_WHEN": {
     "scope": "sql",
@@ -923,10 +947,10 @@
     "description": "UNION_SEM_DUPLICATAS"
   },
 
-	// UNION_COM_DUPLICATAS
-  "UNION_COM_DUPLICATAS": {
+	// UNION_ALL_SEM_DUPLICATAS
+  "UNION_ALL_SEM_DUPLICATAS": {
     "scope": "sql",
-    "prefix": "ZUNIOND",
+    "prefix": "ZUNIONALL",
     "body": [
 	  "${7:DROP TABLE IF EXISTS ${1:#BASE__UNIDA_ALL}}",
       "SELECT",
@@ -943,7 +967,7 @@
 	  "INTO ${1:#BASE__UNIDA}",
 	  "FROM ${6#BASE2} -- SE QUISER, COPIE MAIS UM UNION ALL SEGUIDO DE SELECT E ETC... PARA MAIS UNIONS" 
     ],
-    "description": "UNION_SEM_DUPLICATAS"
+    "description": "UNION_ALL_SEM_DUPLICATAS"
   },
 
   // SAS_PAPUA_022026
