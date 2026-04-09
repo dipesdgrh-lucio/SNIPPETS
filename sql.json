@@ -122,8 +122,8 @@
     "description": "TERMINAL COM COLUNAS_NA_VERTICAL_SAS"
   },
 
-  // QUERY COLETIVA
-  "QUERY COLETIVA": {
+  // QUERY_COLETIVA
+  "QUERY_COLETIVA": {
       "scope": "sql",
       "prefix": "ZCOLET",
       "body": [
@@ -136,7 +136,26 @@
           "",
           "-------------- SCRIPT COLETIVO FIM --------------",            
       ],
-      "description": "QUERY COLETIVA"
+      "description": "QUERY_COLETIVA"
+  },
+
+    // BASE_CABECALHO
+  "BASE_CABECALHO": {
+      "scope": "sql",
+      "prefix": "ZBASE",
+      "body": [
+          "/*",
+          "BANCOS DE DADOS CONSULTADOS:",
+          "${1:CEPEA_SAS}",
+          "",
+          "TABELAS:",
+          "",
+          "TEMPORÁRIAS:",
+          "",
+          "*/",
+          "------------------------------------------"           
+      ],
+      "description": "CABECALHO_DE_QUERY_BD_BASES_TEMPS"
   },
 
     // USE_BD
