@@ -185,7 +185,7 @@
     "prefix": "ZSEL",
     "body": [
       "${2:SELECT *          }",
-      "FROM CTG${1:02}26"
+      "FROM ${1:CTG0226}"
     ],
     "description": "SELECT SIMPLES"
   },
