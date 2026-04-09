@@ -2220,6 +2220,126 @@
         "ORDER BY ID"
     ],
     "description": "CEPEA_TB_ID_INTERNO_SERV"
+},
+
+// 00_DISCIPLINA
+"00_DISCIPLINA": {
+    "scope": "sql",
+    "prefix": "Z00DISC",
+    "body": [
+        "USE CEPEA_SAS",
+        "",
+        "SELECT",
+        "     CODMAE,",
+        "     DEN_CODMAE       ",
+        "FROM [dbo].[00_DISCIPLINA]"
+    ],
+    "description": "00_DISCIPLINA"
+},
+
+// 00_LOCALIZACAO
+"00_LOCALIZACAO": {
+    "scope": "sql",
+    "prefix": "Z00LOC",
+    "body": [
+        "USE CEPEA_SAS",
+        "",
+        "SELECT",
+        "    CD_LOCALIZACAO,",
+        "    LOCALIZACAO         ",
+        "FROM [00_LOCALIZACAO]"
+    ],
+    "description": "00_LOCALIZACAO"
+},
+
+// 00_NIVEL_CURSO
+"00_NIVEL_CURSO": {
+    "scope": "sql",
+    "prefix": "Z00NIVCURSO",
+    "body": [
+        "SELECT",
+        "    CD_TIPO_NIVEL_CURSO,",
+        "    NM_TIPO_NIVEL_CURSO        ",
+        "FROM [dbo].[00_NIVEL_CURSO]"
+    ],
+    "description": "00_NIVEL_CURSO"
+},
+
+// 00_PROGRAMA
+"00_PROGRAMA": {
+    "scope": "sql",
+    "prefix": "Z00PROG",
+    "body": [
+        "SELECT",
+        "    CD_TP_PROGRAMA,",
+        "    DS_PROGRAMA        ",
+        "FROM [dbo].[00_PROGRAMA]"
+    ],
+    "description": "00_PROGRAMA"
+},
+
+// 00_TIPO_ENSINO
+"00_TIPO_ENSINO": {
+    "scope": "sql",
+    "prefix": "Z00TIPENS",
+    "body": [
+        "SELECT",
+        "    CD_TIPO_ENSINO,",
+        "    NM_TIPO_ENSINO        ",
+        "FROM [dbo].[00_TIPO_ENSINO]"
+    ],
+    "description": "00_TIPO_ENSINO"
+},
+
+// 00_UA
+"00_UA": {
+    "scope": "sql",
+    "prefix": "Z00UA",
+    "body": [
+        "SELECT",
+        "    ID             ,",
+        "    POLO           ,",
+        "    REGIAO         ,",
+        "    MUN            ,",
+        "    NOMEMUN        ,",
+        "    ORGAO          ,",
+        "    UO             ,",
+        "    UD             ,",
+        "    UA             ,",
+        "    CIE            ,",
+        "    CD_INEP        ,",
+        "    NOME           ,",
+        "    SEGMENTO       ,",
+        "    SITUACAO       ,",
+        "    CATESC         ,",
+        "    CIE_VINCULADORA,",
+        "    DZ_ZONA        ,",
+        "    TPESC          ,",
+        "    OBS1           ,",
+        "    OBS2           ,",
+        "    NOMEAPM        ,",
+        "    CNPJAPM        ",
+        "FROM [dbo].[00_UA${1:03}26]",
+        "ORDER BY ID"
+    ],
+    "description": "00_UA"
+},
+
+// 00_URE
+"00_URE": {
+    "scope": "sql",
+    "prefix": "Z00URE",
+    "body": [
+        "SELECT",
+        "    NM_URE            ,",
+        "    CD_DIRETORIA      ,",
+        "    CD_TIPO_DIRETORIA ,",
+        "    CD_UNIDADE_ADM    ,",
+        "    CD_COORDENADORIA  ",
+        "FROM [dbo].[00_URE]",
+        "ORDER BY NM_URE"
+    ],
+    "description": "00_URE"
 }
 
 }
