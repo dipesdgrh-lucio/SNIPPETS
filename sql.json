@@ -1878,15 +1878,15 @@
 // CEPEA_CHOR_SALA_AULA
 "CEPEA_CHOR_SALA_AULA": {
     "scope": "sql",
-    "prefix": "ZCPEACHORSAULA",
+    "prefix": "ZCEPEACHORSALA",
     "body": [
         "USE CEPEA_SAS",
         "",
         "SELECT",
         "     REGIAO             ,",
-        "     CD_DIRETORIA       ,",
-        "     NOMEDE             ,",
-        "     CD_INEP            ,",
+        "     CD_DIRETORIA AS CD_URE,",
+        "     NOMEDE  AS URE     ,",
+        "     CD_INEP  AS CIE    ,",
         "     DZ_ZONA            ,",
         "     CATESC             ,",
         "     TPESC              ,",
