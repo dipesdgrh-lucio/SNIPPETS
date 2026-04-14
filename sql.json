@@ -992,6 +992,20 @@
     "description": "ORDER BY"
   },
 
+  // TIRAR_ZEROS_ESQUERDA_CPF
+  "TIRAR_ZEROS_ESQUERDA_CPF": {
+    "scope": "sql",
+    "prefix": "ZCPFZERO",
+    "body": [
+	  "DROP TABLE IF EXISTS #CPF_${1:NOME}_SEM_0",
+    "SELECT ",
+    "CAST(CPF AS BIGINT) AS CPF",
+    "INTO #CPF_${1:NOME}_SEM_0",
+    "FROM ${2:BASE}",
+    ],
+    "description": "TIRAR_ZEROS_ESQUERDA_CPF"
+  },
+
   // SAS_PAPUA_022026
 "SAS_PAPUA_022026": {
     "scope": "sql",
@@ -1349,14 +1363,34 @@
     "scope": "sql",
     "prefix": "ZSASEDUCAPES",
     "body": [
+        "DROP TABLE IF EXISTS #CPFPESSOAL",
         "SELECT",
         "   NOME,",
         "   RS,",
         "   PV,",
+        "   CONCAT(RS, PV) AS RSPV,",
         "   DTNASC AS NASCIMENTO,",
         "   CPF,",
-        "   CPFDV",
+        "   CPFDV,",
+        "   RIGHT(CPF, 9) AS CPF_9",
+        "INTO #CPFPESSOAL",
         "FROM SAS.[${1:03}2026].EDUCA_PESSOAL",
+        "DROP TABLE IF EXISTS #CPF_COMPL",
+        "SELECT",
+        "   NOME,",
+        "   RS,",
+        "   PV,",
+        "   RSPV,",
+        "   NASCIMENTO,",
+        "   CPF,",
+        "   CPFDV,",
+        "   CPF_9,",        
+        "   CONCAT(CPF_9, CPFDV) AS CPF_COMPL",
+        "INTO #CPF_COMPL",
+        "FROM #CPFPESSOAL",
+        "SELECT *",
+        "FROM #CPF_COMPL",
+        "ORDER BY CPF_COMPL",
     ],
     "description": "SAS_EDUCA_PESSOAL"
 },
