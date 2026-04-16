@@ -268,7 +268,7 @@
     "description": "00_MAPEAMENTO_MUDANCA_DE_COLUNAS"
   },
 
-  // CRIAR_00_MAPEAMENTO_BD0000
+// CRIAR_00_MAPEAMENTO_BD0000
 "CRIAR_00_MAPEAMENTO_BD0000": {
     "scope": "sql",
     "prefix": "ZMAPCRIAR",
@@ -276,8 +276,8 @@
         "USE CEPEA_SAS",
         "DROP TABLE IF EXISTS [00_MAPEAMENTO_BD0000]",
         "",
-        "IF OBJECT_ID('TEMPDB..#MAPEAMENTO') IS NOT NULL -- OBJECT_ID retorna o ID do objeto TEMPDB..#MAPEAMENTO se ele existir, se nao existir e NULL",
-        "    DROP TABLE #MAPEAMENTO -- Se existir, apaga a tabela para recria-la do zero (evita erro de 'ja existe')",
+        "IF OBJECT_ID('TEMPDB..#MAPEAMENTO') IS NOT NULL",
+        "    DROP TABLE #MAPEAMENTO",
         "",
         "CREATE TABLE #MAPEAMENTO (",
         "    ANO_TABELA int NULL,",
@@ -292,20 +292,20 @@
         "nome do banco de dados atual e representado por '?' dentro da string. ",
         "*/",
         "EXEC sp_MSforeachdb ' ",
-        "USE [?] -- USE [?] muda o contexto para o banco atual (cada banco por vez)",
+        "USE [?]",
         "INSERT INTO #MAPEAMENTO (ANO_TABELA, BD, TABELA, COLUNA, END_COMPLETO)",
         "SELECT",
         "    YEAR(A.create_date) AS ANO_TABELA,  ",
         "    DB_NAME() AS BD,",
         "    A.name AS TABELA,",
         "    B.name AS COLUNA,    ",
-        "    CAST(YEAR(A.create_date) AS varchar(4)) + ''\\'' + -- Concatenacao dos campos separados por '\\'",
-        "    DB_NAME() + ''\\'' + -- CONCATENACAO",
-        "    A.name + ''\\'' + -- CONCATENACAO",
-        "    B.name AS END_COMPLETO -- CONCATENACAO",
+        "    CAST(YEAR(A.create_date) AS varchar(4)) + ''/'' + -- ← Barra normal",
+        "    DB_NAME() + ''/'' + ",
+        "    A.name + ''/'' + ",
+        "    B.name AS END_COMPLETO",
         "FROM sys.tables A ",
         "INNER JOIN sys.columns B ON A.object_id = B.object_id",
-        "WHERE A.is_ms_shipped = 0  -- Exclui tabelas do sistema (mantem apenas tabelas de usuario)",
+        "WHERE A.is_ms_shipped = 0",
         "'",
         "",
         "/*",
@@ -319,7 +319,7 @@
         "INTO [00_MAPEAMENTO_BD0000]",
         "FROM #MAPEAMENTO"
     ],
-    "description": "CRIAR BD ATUALIZADO 00_MAPEAMENTO_BD0000"
+    "description": "CRIAR 00_MAPEAMENTO_BD0000"
 },
 
 // 00_MAPEAMENTO_BD0000_CONSULTA
