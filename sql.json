@@ -1059,6 +1059,29 @@
     "description": "ORDER BY"
   },
 
+  // CPF_CEPEA
+  "CPF_CEPEA": {
+      "scope": "sql",
+      "prefix": "ZCPFCEPEA",
+      "body": [
+          "DROP TABLE IF EXISTS #CPF_CEPEA",
+          "CREATE TABLE #CPF_CEPEA (",
+          "    CPF VARCHAR(11)",
+          "    )",
+          "INSERT INTO #CPF_CEPEA (CPF) VALUES",
+          "('11890095877'),",
+          "('05141351823'),",
+          "('35868577809'),",
+          "('39545399856'),",
+          "('02832580807'),",
+          "('06642460448'),",
+          "('35146922896'),",
+          "('36988698884'),",
+          "('52020927845')"
+      ],
+      "description": "CPF_CEPEA"
+  },
+
   // TIRAR_ZEROS_ESQUERDA_CPF
   "TIRAR_ZEROS_ESQUERDA_CPF": {
     "scope": "sql",
@@ -1346,6 +1369,7 @@
         "SELECT",
         "      NR_CPF AS CPF               ,",
         "      NR_DI AS DI                 ,",
+        "      CONCAT(NR_CPF, NR_DI) AS CPF_DI,",
         "      NR_RG AS RG                 ,",
         "      CD_SIT_REG AS SITUACAO, -- A = ATIVO, E = EXCLUÍDO , F = falecido, 0 = erro, P CATEGORIA P, I = INATIVO, B = BLOQUEADO     ,",
         "      DT_SIT                      ,",
@@ -1438,7 +1462,7 @@
         "   CONCAT(RS, PV) AS RSPV,",
         "   DTNASC AS NASCIMENTO,",
         "   CPF,",
-        "   CPFDV,",
+        "   CPFDV AS DI,",
         "   RIGHT(CPF, 9) AS CPF_9",
         "INTO #CPFPESSOAL",
         "FROM SAS.[${1:03}2026].EDUCA_PESSOAL",
@@ -1450,14 +1474,14 @@
         "   RSPV,",
         "   NASCIMENTO,",
         "   CPF,",
-        "   CPFDV,",
+        "   DI,",
         "   CPF_9,",        
-        "   CONCAT(CPF_9, CPFDV) AS CPF_COMPL",
+        "   CONCAT(CPF_9, DI) AS CPF_DI",
         "INTO #CPF_COMPL",
         "FROM #CPFPESSOAL",
         "SELECT *",
         "FROM #CPF_COMPL",
-        "ORDER BY CPF_COMPL",
+        "ORDER BY CPF_DI"
     ],
     "description": "SAS_EDUCA_PESSOAL"
 },
@@ -1473,6 +1497,7 @@
         "      NR_RG AS RG        ,",
         "      NR_CPF AS CPF      ,",
         "      NR_DI AS DI        ,",
+        "      CONCAT(NR_CPF, NR_DI) AS CPF_DI,",
         "      TP_ATRIB           ,",
         "      TIPO_ATRIB AS DESC_TP_ATRIB,",
         "      COD_ESCOLA AS CIE  ,",
@@ -1514,8 +1539,9 @@
     "body": [
         "SELECT",
         "      NR_CPF               ,",
-        "      NR_RG                ,",
         "      NR_DI                ,",
+        "      CONCAT(NR_CPF, NR_DI) AS CPF_DI,",
+        "      NR_RG                ,",
         "      CD_TIP_EVE           ,",
         "      CD_MOTIV_EVE         ,",
         "      CD_EVE               ,",
@@ -1657,6 +1683,7 @@
         "SELECT",
         "     NR_CPF          ,",
         "     NR_DI           ,",
+        "     CONCAT(NR_CPF, NR_DI) AS CPF_DI,",
         "     ANO_REF         ,",
         "     MES_REF         ,",
         "     CD_DIA          ,",
@@ -1686,6 +1713,7 @@
         "SELECT",
         "     NR_CPF             ,",
         "     NR_DI              ,",
+        "     CONCAT(NR_CPF, NR_DI) AS CPF_DI,",
         "     ANO_REF            ,",
         "     MES_REF            ,",
         "     NR_RG              ,",
@@ -1712,90 +1740,6 @@
     "description": "SAS_TB_FREQUENCIA"
 },
 
-// CONTAGEH_TB_FUNCIONAL_CONTAGEH
-"CONTAGEH_TB_FUNCIONAL_CONTAGEH": {
-    "scope": "sql",
-    "prefix": "ZSASTBFUNC",
-    "body": [
-        "SELECT",
-        "      NR_CPF AS CPF               ,",
-        "      NR_DI AS DI                 ,",
-        "      NR_RG AS RG                 ,",
-        "      CD_SIT_REG AS SITUACAO      ,",
-        "      DT_SIT                      ,",
-        "      NR_QUIN_ADIC_TS             ,",
-        "      DT_VIG_ULT_QUIN_ATS         ,",
-        "      CD_INDIC_SEXTAPARTE         ,",
-        "      DT_VIG_SEXTAPARTE           ,",
-        "      CD_CARGO_FUNC_TIT           ,",
-        "      DT_POSSE_TIT                ,",
-        "      DT_INIC_EXERC_TIT           ,",
-        "      CD_CLASSE_DISC_TIT AS CLDISC,",
-        "      CD_IDENT_SIT_ESPEC_TIT AS SIT_ESP,",
-        "      DT_INIC_SIT_ESPEC_TIT AS DT_SIT_ESP,",
-        "      CD_IDENT_REF_FAIXA_TIT AS REF_FAIXA,",
-        "      CD_IDENT_GRAU_NIV_TIT AS GRAU_NIV,",
-        "      CD_JORNADA_TIT AS JORNADA   ,",
-        "      CD_UNID_ESC_CLASS_TIT AS CIE_C,",
-        "      CD_UNID_ADM_CLASS_TIT AS UA_C,",
-        "      CD_UNID_ESC_EXERC_TIT AS CIE_E,",
-        "      CD_UNID_ADM_EXERC_TIT AS UA_E,",
-        "      CD_TIP_INTERRUP_CESS_TIT AS INTERRUP,",
-        "      CD_MOT_INTERRUP_CESS_TIT AS MOT_INTERRUP,",
-        "      DT_INIC_INTERRUP_CESS_TIT AS DTI_INTERRUP,",
-        "      DT_FIM_INTERRUP_CESS_TIT AS DTF_INTERRUP,",
-        "      CD_MOT_AFAST_TIT AS MOTIAFAS,",
-        "      DT_INIC_AFAST_TIT AS DTI_MOTIAFAS,",
-        "      DT_FIM_AFAST_TIT AS DTF_MOTIAFAS,",
-        "      CD_MOT_LIC_TIT AS MOTILICE  ,",
-        "      DT_INIC_LIC_TIT AS DTI_MOTILICE,",
-        "      DT_FIM_LIC_TIT AS DTF_MOTICE,",
-        "      CD_TIP_PROV_COMIS           ,",
-        "      CD_CARGO_FUNCAO_COMIS AS CARGO_COMIS,",
-        "      DT_POSSE_COMIS              ,",
-        "      DT_INIC_EXERC_COMIS         ,",
-        "      DT_INIC_SIT_ESP_COMIS AS SIT_ESP_COMIS,",
-        "      CD_IDENT_GRAU_NIV_COMIS     ,",
-        "      CD_UNID_ESC_CLASS_COMIS AS UE_C_COMIS,",
-        "      CD_UNID_ADM_CLASS_COMIS AS UA_C_COMIS,",
-        "      CD_UNID_ESC_EXER_COMIS AS UE_E_COMIS,",
-        "      CD_UNID_ADM_EXER_COMIS AS UA_E_COMIS,",
-        "      CD_TIP_INTERRUP_CESS_COMIS AS INTERRUP_COMIS,",
-        "      CD_MOT_INTERRUP_CESS_COMIS AS MOT_INTERRUP_COMIS,",
-        "      DT_INIC_INTERRUP_CESS_COMIS AS DTI_INTERRUP_COMIS,",
-        "      DT_FIM_INTERRUP_CESS_COMIS AS DTF_INTERRUP_COMIS,",
-        "      CD_MOT_AFAST_COMIS AS MOTIAFAS_COMIS,",
-        "      DT_INIC_MOT_AFAST_COMIS AS DTI_MOTIAFAS_COMIS,",
-        "      DT_FIM_MOT_AFAST_COMIS AS DTF_MOTIAFAS_COMIS,",
-        "      CD_MOT_LIC_COMIS AS MOTILICE_COMIS,",
-        "      DT_INIC_LIC_COMIS AS DTI_MOTILICE_COMIS,",
-        "      DT_FIM_LIC_COMIS AS DTF_MOTILICE_COMIS,",
-        "      CD_CARGO_FUNCAO_DESIGN AS CARGO_DESIGN,",
-        "      DT_INIC_DESIGN              ,",
-        "      CD_IDENT_REF_FAIXA_DESIGN AS REF_FAIXA_DESIGN,",
-        "      CD_IDENT_GRAU_NIV_DESIGN AS NIV_DESIGN,",
-        "      CD_UNID_ESC_CLASS_DESIGN AS UE_C_DESIGN,",
-        "      CD_UNID_ADM_CLASS_DESIGN AS UA_C_DESIGN,",
-        "      CD_MOT_SUBST_DESIGN         ,",
-        "      CD_TIP_INTERRUP_CESS_DESIGN ,",
-        "      CD_MOT_INTERRUP_CESS_DESIGN ,",
-        "      DT_INIC_INTERRUP_CESS_DESIGN,",
-        "      DT_FIM_INTERRUP_CESS_DESIGN ,",
-        "      CD_MOT_AFAST_DESIGN         ,",
-        "      DT_INIC_AFAST_DESIGN        ,",
-        "      DT_FIM_AFAST_DESIGN         ,",
-        "      CD_MOT_LIC_DESIGN           ,",
-        "      DT_INIC_LIC_DESIGN          ,",
-        "      DT_FIM_LIC_DESIGN           ,",
-        "      CD_IDENT_GRAU_NIV           ,",
-        "      CD_DIR_ENSI_ORG_CENTRAL     ,",
-        "      COD_CARGO                   ,",
-        "      COD_UNID_ADM                ",
-        "FROM CONTAGEH..TB_FUNCIONAL",
-        "WHERE CD_SIT_REG = 'A' -- A = ATIVO, E = EXCLUÍDO, F = falecido, 0 = erro, P CATEGORIA P, I = INATIVO, B = BLOQUEADO"
-    ],
-    "description": "CONTAGEH_TB_FUNCIONAL"
-},
 
 // SAS_TB_CAD_FREQUENCIA
 "SAS_BFE": {
@@ -1810,17 +1754,6 @@
     "description": "CONTAGEH_TB_CAD_FREQUENCIA"
 },
 
-// DESENV_DBO_DISCIPLINA
-"DESENV_DBO_DISCIPLINA": {
-    "scope": "sql",
-    "prefix": "ZSASDISC",
-    "body": [
-        "SELECT *",
-        "FROM DESENV.DBO.DISCIPLINA"
-    ],
-    "description": "DESENV_DBO_DISCIPLINA"
-},
-
 // SAS_TB_CURSO_HABILITACAO
 "SAS_TB_CURSO_HABILITACAO": {
     "scope": "sql",
@@ -1832,6 +1765,64 @@
     "description": "QUALIFICACAO_TB_CURSO_HABILITACAO"
 },
 
+// DESENV_DBO_DISCIPLINA
+"DESENV_DBO_DISCIPLINA": {
+    "scope": "sql",
+    "prefix": "ZSASDISC",
+    "body": [
+        "SELECT *",
+        "FROM DESENV.DBO.DISCIPLINA"
+    ],
+    "description": "DESENV_DBO_DISCIPLINA"
+},
+
+// BASE_SERVIDORES_ATIVOS_FINAL
+"BASE_SERVIDORES_ATIVOS_FINAL": {
+    "scope": "sql",
+    "prefix": "ZSASSERV",
+    "body": [
+        "SELECT",
+        "    POLO_C                 ,",
+        "    REGIAO_C               ,",
+        "    NOMEDE_C               ,",
+        "    UAC                    ,",
+        "    NOMEUA_C               ,",
+        "    MUNICIPIO_C            ,",
+        "    DI                     ,",
+        "    SEXO                   ,",
+        "    DATA_NASCIMENTO        ,",
+        "    IDADE                  ,",
+        "    CARGO_C                ,",
+        "    NOMECAR_C              ,",
+        "    QUADRO_C               ,",
+        "    CATEG_C                ,",
+        "    DT_INICIO_EXERCICIO_C  ,",
+        "    ANOS_TRAB_CARGO_C      ,",
+        "    DTPOSSE_C              ,",
+        "    DISC_CONCURSO          ,",
+        "    POLO_E                 ,",
+        "    REGIAO_E               ,",
+        "    NOMEDE_E               ,",
+        "    UA_E                   ,",
+        "    LOCAL_UA               ,",
+        "    NOMEUA_E               ,",
+        "    MUNICIPIO_E            ,",
+        "    CARGO_E                ,",
+        "    NOMECAR_E              ,",
+        "    QUADRO_E               ,",
+        "    CATEG_E                ,",
+        "    DATA_INICIO_EXERCICIO_E,",
+        "    DTPOSSE_E              ,",
+        "    QTDE_ATS               ,",
+        "    JORNADA                ,",
+        "    TIPO_DEF               ,",
+        "    ID_COR                 ,",
+        "    ID_INTERNO             ",
+        "FROM CGRH_APOIO.DBO.BASE_SERVIDORES_ATIVOS_FINAL_0326"
+    ],
+    "description": "BASE_SERVIDORES_ATIVOS_FINAL"
+},
+
 // CEPEA_CTG
 "CEPEA_CTG": {
     "scope": "sql",
@@ -1839,10 +1830,11 @@
     "body": [
         "SELECT",
         "     CPF          ,",
+        "     DI           ,",
+        "     CONCAT(CPF, DI) AS CPF_DI,",
         "     RG           ,",
         "     RG12         ,",
         "     RG11         ,",
-        "     DI           ,",
         "     RS           ,",
         "     PV           ,",
         "     NOME         ,",
@@ -1952,8 +1944,9 @@
     "body": [
         "SELECT",
         "     CPF           ,",
-        "     RG            ,",
         "     DI            ,",
+        "     CONCAT(CPF, DI) AS CPF_DI,",
+        "     RG            ,",
         "     ANO           ,",
         "     MES           ,",
         "     CARGO         ,",
@@ -1996,6 +1989,7 @@
         "     NOME               ,",
         "     CPF                ,",
         "     DI                 ,",
+        "     CONCAT(CPF, DI) AS CPF_DI,",
         "     RG                 ,",
         "     RS                 ,",
         "     PV                 ,",
@@ -2180,8 +2174,9 @@
         "SELECT",
         "     NOME          ,",
         "     RG            ,",
-        "     DI            ,",
         "     CPF           ,",
+        "     DI            ,",
+        "     CONCAT(CPF, DI) AS CPF_DI,",
         "     CURSO1        ,",
         "     CURSO2        ,",
         "     CURSO3        ,",
@@ -2449,6 +2444,131 @@
         "ORDER BY NM_URE"
     ],
     "description": "00_URE"
+},
+
+// TB_FUNCIONAL_CONTAGEH
+"TB_FUNCIONAL_CONTAGEH": {
+    "scope": "sql",
+    "prefix": "ZCONTTBFUNC",
+    "body": [
+        "SELECT",
+        "      NR_CPF AS CPF               ,",
+        "      NR_DI AS DI                 ,",
+        "      CONCAT(NR_CPF, NR_DI) AS CPF_DI,",
+        "      NR_RG AS RG                 ,",
+        "      CD_SIT_REG AS SITUACAO      ,",
+        "      DT_SIT                      ,",
+        "      NR_QUIN_ADIC_TS             ,",
+        "      DT_VIG_ULT_QUIN_ATS         ,",
+        "      CD_INDIC_SEXTAPARTE         ,",
+        "      DT_VIG_SEXTAPARTE           ,",
+        "      CD_CARGO_FUNC_TIT           ,",
+        "      DT_POSSE_TIT                ,",
+        "      DT_INIC_EXERC_TIT           ,",
+        "      CD_CLASSE_DISC_TIT AS CLDISC,",
+        "      CD_IDENT_SIT_ESPEC_TIT AS SIT_ESP,",
+        "      DT_INIC_SIT_ESPEC_TIT AS DT_SIT_ESP,",
+        "      CD_IDENT_REF_FAIXA_TIT AS REF_FAIXA,",
+        "      CD_IDENT_GRAU_NIV_TIT AS GRAU_NIV,",
+        "      CD_JORNADA_TIT AS JORNADA   ,",
+        "      CD_UNID_ESC_CLASS_TIT AS CIE_C,",
+        "      CD_UNID_ADM_CLASS_TIT AS UA_C,",
+        "      CD_UNID_ESC_EXERC_TIT AS CIE_E,",
+        "      CD_UNID_ADM_EXERC_TIT AS UA_E,",
+        "      CD_TIP_INTERRUP_CESS_TIT AS INTERRUP,",
+        "      CD_MOT_INTERRUP_CESS_TIT AS MOT_INTERRUP,",
+        "      DT_INIC_INTERRUP_CESS_TIT AS DTI_INTERRUP,",
+        "      DT_FIM_INTERRUP_CESS_TIT AS DTF_INTERRUP,",
+        "      CD_MOT_AFAST_TIT AS MOTIAFAS,",
+        "      DT_INIC_AFAST_TIT AS DTI_MOTIAFAS,",
+        "      DT_FIM_AFAST_TIT AS DTF_MOTIAFAS,",
+        "      CD_MOT_LIC_TIT AS MOTILICE  ,",
+        "      DT_INIC_LIC_TIT AS DTI_MOTILICE,",
+        "      DT_FIM_LIC_TIT AS DTF_MOTICE,",
+        "      CD_TIP_PROV_COMIS           ,",
+        "      CD_CARGO_FUNCAO_COMIS AS CARGO_COMIS,",
+        "      DT_POSSE_COMIS              ,",
+        "      DT_INIC_EXERC_COMIS         ,",
+        "      DT_INIC_SIT_ESP_COMIS AS SIT_ESP_COMIS,",
+        "      CD_IDENT_GRAU_NIV_COMIS     ,",
+        "      CD_UNID_ESC_CLASS_COMIS AS UE_C_COMIS,",
+        "      CD_UNID_ADM_CLASS_COMIS AS UA_C_COMIS,",
+        "      CD_UNID_ESC_EXER_COMIS AS UE_E_COMIS,",
+        "      CD_UNID_ADM_EXER_COMIS AS UA_E_COMIS,",
+        "      CD_TIP_INTERRUP_CESS_COMIS AS INTERRUP_COMIS,",
+        "      CD_MOT_INTERRUP_CESS_COMIS AS MOT_INTERRUP_COMIS,",
+        "      DT_INIC_INTERRUP_CESS_COMIS AS DTI_INTERRUP_COMIS,",
+        "      DT_FIM_INTERRUP_CESS_COMIS AS DTF_INTERRUP_COMIS,",
+        "      CD_MOT_AFAST_COMIS AS MOTIAFAS_COMIS,",
+        "      DT_INIC_MOT_AFAST_COMIS AS DTI_MOTIAFAS_COMIS,",
+        "      DT_FIM_MOT_AFAST_COMIS AS DTF_MOTIAFAS_COMIS,",
+        "      CD_MOT_LIC_COMIS AS MOTILICE_COMIS,",
+        "      DT_INIC_LIC_COMIS AS DTI_MOTILICE_COMIS,",
+        "      DT_FIM_LIC_COMIS AS DTF_MOTILICE_COMIS,",
+        "      CD_CARGO_FUNCAO_DESIGN AS CARGO_DESIGN,",
+        "      DT_INIC_DESIGN              ,",
+        "      CD_IDENT_REF_FAIXA_DESIGN AS REF_FAIXA_DESIGN,",
+        "      CD_IDENT_GRAU_NIV_DESIGN AS NIV_DESIGN,",
+        "      CD_UNID_ESC_CLASS_DESIGN AS UE_C_DESIGN,",
+        "      CD_UNID_ADM_CLASS_DESIGN AS UA_C_DESIGN,",
+        "      CD_MOT_SUBST_DESIGN         ,",
+        "      CD_TIP_INTERRUP_CESS_DESIGN ,",
+        "      CD_MOT_INTERRUP_CESS_DESIGN ,",
+        "      DT_INIC_INTERRUP_CESS_DESIGN,",
+        "      DT_FIM_INTERRUP_CESS_DESIGN ,",
+        "      CD_MOT_AFAST_DESIGN         ,",
+        "      DT_INIC_AFAST_DESIGN        ,",
+        "      DT_FIM_AFAST_DESIGN         ,",
+        "      CD_MOT_LIC_DESIGN           ,",
+        "      DT_INIC_LIC_DESIGN          ,",
+        "      DT_FIM_LIC_DESIGN           ,",
+        "      CD_IDENT_GRAU_NIV           ,",
+        "      CD_DIR_ENSI_ORG_CENTRAL     ,",
+        "      COD_CARGO                   ,",
+        "      COD_UNID_ADM                ",
+        "FROM CONTAGEH..TB_FUNCIONAL",
+        "WHERE CD_SIT_REG = 'A' -- A = ATIVO, E = EXCLUÍDO, F = falecido, 0 = erro, P CATEGORIA P, I = INATIVO, B = BLOQUEADO"
+    ],
+    "description": "TB_FUNCIONAL_CONTAGEH"
+},
+
+// COD_FOLHA_DE_PAGAMENTO_CONTAGEH
+"COD_FOLHA_DE_PAGAMENTO_CONTAGEH": {
+    "scope": "sql",
+    "prefix": "ZCONTFOLHA",
+    "body": [
+        "SELECT",
+        "  cod      ,",
+        "  ds       ,",
+        "  cod_folha      ",
+        "FROM CONTAGEH.[dbo].[Cod_retorno_folha]"
+    ],
+    "description": "COD_FOLHA_DE_PAGAMENTO_CONTAGEH"
+},
+
+// TB_AFASTAMENTO_CONTAGEH
+"TB_AFASTAMENTO_CONTAGEH": {
+    "scope": "sql",
+    "prefix": "ZCONTAFAST",
+    "body": [
+        "SELECT",
+        "    NR_CPF AS CPF              ,",
+        "    NR_DI AS DI               ,",
+        "    CONCAT(NR_CPF, NR_DI) AS CPF_DI,",
+        "    CD_TIP_EVE           ,",
+        "    CD_MOTIV_EVE         ,",
+        "    CD_EVE               ,",
+        "    TP_FORM_AFAST        ,",
+        "    TP_ALTER_HIST        ,",
+        "    FL_ATU               ,",
+        "    CD_CARGO_FUNCAO AS CARGO     ,",
+        "    CD_CATEG AS CATEG            ,",
+        "    CD_JORNADA           ,",
+        "    DT_INI               ,",
+        "    DT_FIM               ",
+        "FROM CONTAGEH.[dbo].[TB_AFASTAMENTO]"
+    ],
+    "description": "TB_AFASTAMENTO_CONTAGEH"
 }
 
 }
