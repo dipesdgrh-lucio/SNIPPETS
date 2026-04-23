@@ -86,7 +86,7 @@
       "    t.modify_date,",
       "    t.object_id ",
       "ORDER BY ",
-      "    QTD_LINHAS_APROX DESC"      
+      "    ANO_MODIFICACAO DESC"      
       ],
     "description": "LISTAR TEBELAS"
   },
