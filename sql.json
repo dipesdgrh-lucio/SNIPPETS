@@ -2588,7 +2588,7 @@
         "ESCOLAS${1:03}26",
         "",
         "*/",
-        "USE CEPEA_SAS",
+        "${2:USE CEPEA_SAS                   }",
         "DROP TABLE IF EXISTS #CODUA_C",
         "DROP TABLE IF EXISTS #CODUA_E",
         "DROP TABLE IF EXISTS #CODUA_ALOC",
