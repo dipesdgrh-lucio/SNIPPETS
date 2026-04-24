@@ -1171,6 +1171,9 @@
     "prefix": "ZSASTBUALOC",
     "body": [
         "SELECT ",
+        "    NR_CPF             ,",
+        "    NR_DI              ,",
+        "    CONCAT(NR_CPF, NR_DI) AS CPF_DI,",
         "    CD_UA              ,",
         "    CD_CARGO           ,",
         "    FL_RESPONSAVEL     ,",
