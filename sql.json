@@ -348,7 +348,7 @@
     "scope": "sql",
     "prefix": "ZMAPCONS",
     "body": [
-        "SELECT *          ",
+        "SELECT           ",
       "   ANO_TABELA,",
       "   BD,",
       "   TABELA,",
