@@ -568,6 +568,8 @@ Write-Host "Perfil PowerShell carregado!" -ForegroundColor Green
 
 # ENDEREÇO onde o VSCode pesquisa o arquivo com snippets
 function code {
-    # mude o caminho do usuário: C:\Users\SEU_USUARIO\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd
-    & "C:\Users\marcus.silva05\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd" @args
+    # mude o caminho do usuário: 
+	#C:\Users\vinic\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd
+	#C:\Users\marcus.silva05\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd
+    & "C:\Users\vinic\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd" @args
 }
