@@ -1,0 +1,14 @@
+{
+	"Listar Drivers ODBC": {
+		"prefix": "zdrivers",
+		"body": [
+			"import pyodbc",
+			"",
+			"print(\"Drivers ODBC instalados:\")",
+			"for driver in pyodbc.drivers():",
+			"    print(f\"  - {driver}\")",
+			""
+		],
+		"description": "Lista todos os drivers ODBC instalados no sistema"
+	}
+}
