@@ -24,7 +24,7 @@ function z {
 
     switch ($comando) {	
 		
-		# ===== POWER SHELL =====
+		# =================================== POWER SHELL ===================================
 		"nav_buscar_por_nome" { Get-ChildItem -Filter "*documen*" -File -Recurse }
 		"nav_desktop" { Set-Location ~/Desktop }
 		"nav_downloads" { Set-Location ~/Downloads }		
@@ -39,9 +39,6 @@ function z {
 		"nav_volta_2_diretorios" { Set-Location ..\.. }
 		"nav_volta_desktop" { Set-Location ~/Desktop }
 		"nav_volta_home" { Set-Location ~ }
-		"sys_abre_snippet_notepad" { notepad $PROFILE }
-		"sys_abre_snippet_vscode" { code $PROFILE }
-		"sys_atualizar_snippet" { . $PROFILE }
 		"sys_bateria" { Get-WmiObject Win32_Battery | Format-Table Caption, EstimatedChargeRemaining }
 		"sys_bluetooth" { Get-WmiObject Win32_PnPEntity | Where-Object {$_.PNPClass -eq "Bluetooth"} | Format-Table Caption }
 		"sys_diagnostico_bluetooth" {
@@ -93,11 +90,14 @@ function z {
 		"sys_programas_instalados" { Get-WmiObject Win32_Product | Format-Table Name, Version }
 		"sys_rede" { Get-WmiObject Win32_NetworkAdapter | Where-Object {$_.MACAddress} | Format-Table Name, MACAddress }
 		"sys_sistema_operacional" { Get-WmiObject Win32_OperatingSystem | Format-Table Caption, Version, OSArchitecture }
+		"sys_abre_snippet_notepad" { notepad $PROFILE }
+		"sys_abre_snippet_vscode" { code $PROFILE }
+		"sys_atualizar_snippet" { . $PROFILE }
 		"sys_som" { Get-WmiObject Win32_SoundDevice | Format-Table Caption }
 		"sys_usb" { Get-WmiObject Win32_PnPSignedDriver | Format-Table DeviceName }
 		"sys_usuarios" { Get-LocalUser | Format-Table Name, Enabled }
 
-		# ===== EXTENSÕES =====
+		# =================================== EXTENSÕES ===================================
 		"sys_inst_exten_inic_vscode" {
 
 			Write-Host ""
@@ -152,109 +152,7 @@ function z {
 			Write-Host ""
 		}
 
-		"sys_inst_exten_py_sql" {
-
-			Write-Host ""
-			Write-Host "Instalando extensoes Python + SQL..."
-			Write-Host ""
-
-			$extensoes = @(
-				"ms-python.python",
-				"ms-python.vscode-pylance",
-				"mssql.mssql",
-				"mtxr.sqltools",
-				"ms-toolsai.jupyter",
-				"ms-toolsai.datawrangler",
-				"njpwerner.autodocstring",
-				"kevinrose.vsc-python-indent",
-				"njpwerner.autodocstring",
-				"coenraads.bracket-pair-colorizer-2",
-				"christian-kohler.path-intellisense",
-				"littlefoxteam.vscode-python-test-adapter",
-				"ms-python.black-formatter",
-				"ms-python.isort",
-				"ms-python.flake8",
-				"ms-python.debugpy",
-				"cweijan.vscode-database-client2",
-				"grapecity.gc-excelviewer",
-				"mechatroner.rainbow-csv"
-			)
-
-			$instaladas = code --list-extensions
-
-			foreach ($ext in $extensoes) {
-				if ($instaladas -notcontains $ext) {
-					Write-Host "Instalando $ext..."
-					code --install-extension $ext
-				} else {
-					Write-Host "$ext ja instalada"
-				}
-			}
-
-			Write-Host ""
-			Write-Host "Instalacao concluida!"
-			Write-Host ""
-		}
-
-		# ===== VERIFICAR PYTHON =====
-		"sys_verificar_python" {
-		Write-Host "`n=== VERIFICAÇÃO DO AMBIENTE PYTHON ===" -ForegroundColor Cyan
-		
-		# Python
-		Write-Host "`nPython version:" -ForegroundColor Yellow
-		python --version 2>&1
-		
-		# Pip
-		Write-Host "`nPip version:" -ForegroundColor Yellow
-		pip --version
-		
-		# Pacotes importantes
-		Write-Host "`nPacotes instalados (principais):" -ForegroundColor Yellow
-		pip list | findstr -i "pandas pyodbc sqlalchemy dotenv numpy"
-		
-		# PATH do Python
-		Write-Host "`nLocalização do Python:" -ForegroundColor Yellow
-		where.exe python
-		
-		Write-Host "`n=== FIM ===" -ForegroundColor Cyan
-		}
-
-		# ===== INSTALAR PYTHON =====
-		"sys_instalar_python" {
-
-		Write-Host ""
-		Write-Host "=== INSTALACAO DO AMBIENTE PYTHON ==="
-		Write-Host ""
-
-		# Instalar Python via winget (recomendado)
-		Write-Host "Instalando Python..."
-		winget install Python.Python.3.12
-
-		# Atualizar pip
-		Write-Host "Atualizando pip..."
-		python -m pip install --upgrade pip
-
-		# Instalar bibliotecas essenciais
-		Write-Host "Instalando pacotes Python..."
-		pip install pyodbc pandas SQLAlchemy python-dotenv
-
-		# Instalar driver ODBC
-		Write-Host "Instalando ODBC Driver 18..."
-		Start-BitsTransfer -Source "https://go.microsoft.com/fwlink/?linkid=2249006" -Destination "$env:TEMP\msodbcsql.msi"
-		Start-Process -Wait -FilePath msiexec -ArgumentList "/i `"$env:TEMP\msodbcsql.msi`" /quiet IACCEPTMSODBCSQLLICENSETERMS=YES"
-
-		# Instalar requirements se existir
-		if (Test-Path "requirements.txt") {
-			Write-Host "Instalando requirements.txt..."
-			pip install -r requirements.txt
-		}
-
-		Write-Host ""
-		Write-Host "=== INSTALACAO CONCLUIDA ==="
-		Write-Host ""
-		}
-
-		# ===== COLA DE LISTA DE COMANDOS POWER SHELL =====
+		# =================================== COLA DE LISTA DE COMANDOS POWER SHELL ===================================
 		"cola_vscode" {
 				Write-Host ""
 				Write-Host "=== COMANDOS VSCODE ==="
@@ -274,7 +172,7 @@ function z {
 				Write-Host "ls C:\Users *documen* -File -Recurse       # pesquisa por arquivos com trecho %documen%"
 		}
 
-		# ===== COLA DE LISTA DE COMANDOS GIT =====
+		# =================================== COLA DE LISTA DE COMANDOS GIT ===================================
 		"cola_git" {
 			Write-Host ""
 			Write-Host "=== COMANDOS GIT ==="
@@ -385,72 +283,24 @@ function z {
 		}
 
 
-		# ===== COMANDOS GIT =====
-		"git_corrige_ultimo_commit" { 
-			$msg = Read-Host "Nova mensagem do commit"
-			git commit --amend -m "$msg"
-		}
+		# =================================== COMANDOS GIT ===================================
+		"git_status" { git status }
 		"git_add" { git add . }
-		"git_branch" { git branch }
-		"git_branch_deletar" {git branch -D nome}
-		"git_branch_criar_nova" { 
-			$branch = Read-Host "Nome do branch a partir da tag"
-			git switch -c $branch
-		}
-		"git_checkout" { 
-			$branch = Read-Host "Nome da branch"
-			git checkout $branch
-		}
-		"git_checkout_branch_para_salvar_commits_perdidos" { 
-			Write-Host "Criando branch para salvar commits perdidos..." -ForegroundColor Yellow
-			git checkout -b branch-salvamento
-			git checkout master
-			git merge --no-ff branch-salvamento
-			Write-Host "Branch branch-salvamento criada. Delete se não precisar: git branch -d branch-salvamento" -ForegroundColor Green
-		}
-		"git_checkout_head" { git checkout HEAD -- . }
-		"git_checkout_head_arquivo" { 
-			$arquivo = Read-Host "Nome do arquivo"
-			git checkout HEAD -- $arquivo
-		}
-		"git_checkout_cria_e_muda_de_branch" { 
-			$branch = Read-Host "Nome da nova branch"
-			git checkout -b $branch
-		}
-		"git_checkout_tag" { 
-			$tag = Read-Host "Nome da tag"
-			git checkout $tag
-		}
-		"git_clone" { 
-			$url = Read-Host "URL do repositório"
-			git clone $url
-		}
 		"git_commit" { 
 			$msg = Read-Host "Mensagem do commit"
 			git commit -m "$msg"
 		}
-		"git_config_user" {
-			Write-Host "1 - Marcus-Vinicius-Dev (pessoal)"
-			Write-Host "2 - Marcus-Vinicius-C-S (CIAP)"
-			$opcao = Read-Host "Escolha 1 ou 2"
-			if ($opcao -eq "1") {
-				git config user.name "Marcus-Vinicius-Dev"
-				git config user.email "marcus.vini.dev@gmail.com"
-			} elseif ($opcao -eq "2") {
-				git config user.name "Marcus-Vinicius-C-S"
-				git config user.email "ciapdivtectic@gmail.com"
-			}
+		"git_push" { git push }
+		"git_pull" { git pull }
+		"git_log" { git log --oneline -10 }
+		"git_branch" { git branch }
+		"git_checkout" { 
+			$branch = Read-Host "Nome da branch"
+			git checkout $branch
 		}
-		"git_config_global" {
-			$email = Read-Host "Email global"
-			git config --global user.email "$email"
-		}
-		"git_salvar_credenciais" { git config credential.helper store }
-		"git_remover_credeciais_locais" { git config --unset credential.helper }
-		"git_remover_credeciais_globais" { git config --global --unset credential.helper }
 		"git_diff" { git diff }
-		"git_fetch" { git fetch }
-		"git_ignore_criar" { New-Item -Path ".gitignore" -ItemType File }
+		"git_stash" { git stash }
+		"git_stash_pop" { git stash pop }
 		"git_init" { git init }
 		"git_log_oneline" { git log --oneline }
 		"git_log_author" { 
@@ -465,26 +315,6 @@ function z {
 			$data = Read-Host "Data (YYYY-MM-DD)"
 			git log --after="$data"
 		}
-		"git_log" { git log --oneline -10 }		
-		"git_merge" { 
-			$branch = Read-Host "Nome da branch para merge"
-			git merge $branch
-		}
-		"git_mudar_nome" {
-			$antigo = Read-Host "Nome atual do arquivo"
-			$novo = Read-Host "Novo nome"
-			git mv $antigo $novo
-		}
-		"git_pull" { git pull }		
-		"git_pull_origin" { git pull origin master }
-		"git_push" { git push }
-		"git_push_u" { git push -u origin master }
-		"git_rebase" { git rebase }
-		"git_ver_repositorios_remotos" { git remote -v }
-		"git_conectar_ao_GitHub" { 
-			$url = Read-Host "URL do repositório"
-			git remote add origin $url
-		}
 		"git_restore_staged" { 
 			$arquivo = Read-Host "Nome do arquivo"
 			git restore --staged $arquivo
@@ -493,20 +323,40 @@ function z {
 		"git_reset_soft" { 
 			$qtde = Read-Host "Quantos commits voltar (ex: 1,2,3...)"
 			git reset HEAD~$qtde
-		
+		}
+		"git_amend" { 
+			$msg = Read-Host "Nova mensagem do commit"
+			git commit --amend -m "$msg"
 		}
 		"git_revert" { 
 			$id = Read-Host "ID do commit"
 			git revert $id
-		}		
-		"git_remover_arquivo" {
-			$arquivo = Read-Host "Arquivo para remover"
-			git rm $arquivo
 		}
-		"git_stash" { git stash }
-		"git_status" { git status }
-		"git_stash_pop" { git stash pop }
-		"git_status_ignore" { git status --ignored }
+		"git_branch_D" { 
+			$branch = Read-Host "Nome da branch para deletar FORCADO"
+			git branch -D $branch
+		}
+		"git_merge" { 
+			$branch = Read-Host "Nome da branch para merge"
+			git merge $branch
+		}
+		"git_checkout_b" { 
+			$branch = Read-Host "Nome da nova branch"
+			git checkout -b $branch
+		}
+		"git_clone" { 
+			$url = Read-Host "URL do repositório"
+			git clone $url
+		}
+		"git_remote_v" { git remote -v }
+		"git_remote_add" { 
+			$url = Read-Host "URL do repositório"
+			git remote add origin $url
+		}
+		"git_push_u" { git push -u origin master }
+		"git_pull_origin" { git pull origin master }
+		"git_fetch" { git fetch }
+		"git_rebase" { git rebase }
 		"git_tag" { git tag }
 		"git_tag_v" { 
 			$versao = Read-Host "Versão (ex: v1.0)"
@@ -516,8 +366,200 @@ function z {
 			$versao = Read-Host "Versão (ex: v1.0)"
 			git push origin $versao
 		}
+		"git_checkout_tag" { 
+			$tag = Read-Host "Nome da tag"
+			git checkout $tag
+		}
+		"git_switch_c" { 
+			$branch = Read-Host "Nome do branch a partir da tag"
+			git switch -c $branch
+		}
+		"git_checkout_detached_fix" { 
+			Write-Host "Criando branch para salvar commits perdidos..." -ForegroundColor Yellow
+			git checkout -b branch-salvamento
+			git checkout master
+			git merge --no-ff branch-salvamento
+			Write-Host "Branch branch-salvamento criada. Delete se não precisar: git branch -d branch-salvamento" -ForegroundColor Green
+		}
+		"git_checkout_head" { git checkout HEAD -- . }
+		"git_checkout_head_arquivo" { 
+			$arquivo = Read-Host "Nome do arquivo"
+			git checkout HEAD -- $arquivo
+		}
+		"git_config_user" {
+			Write-Host "1 - Marcus-Vinicius-Dev (pessoal)"
+			Write-Host "2 - Marcus-Vinicius-C-S (trabalho)"
+			$opcao = Read-Host "Escolha 1 ou 2"
+			if ($opcao -eq "1") {
+				git config user.name "Marcus-Vinicius-Dev"
+				git config user.email "marcus.vini.dev@gmail.com"
+			} elseif ($opcao -eq "2") {
+				git config user.name "Marcus-Vinicius-C-S"
+				git config user.email "ciapdivtectic@gmail.com"
+			}
+		}
+		"git_config_global" {
+			$email = Read-Host "Email global"
+			git config --global user.email "$email"
+		}
+		"git_credential_store" { git config credential.helper store }
+		"git_credential_unset" { git config --unset credential.helper }
+		"git_credential_unset_global" { git config --global --unset credential.helper }
+		"git_ignore_criar" { New-Item -Path ".gitignore" -ItemType File }
+		"git_status_ignore" { git status --ignored }
+		"git_mv" {
+			$antigo = Read-Host "Nome atual do arquivo"
+			$novo = Read-Host "Novo nome"
+			git mv $antigo $novo
+		}
+		"git_rm" {
+			$arquivo = Read-Host "Arquivo para remover"
+			git rm $arquivo
+		}
+		# =================================== PYTHON ===================================
+		# =================================== INSTALAR EXTESÕES PYTHON ===================================
+		"py_inst_exten_py_sql" {
 
-		# ===== HELP =====
+			Write-Host ""
+			Write-Host "Instalando extensoes Python + SQL..."
+			Write-Host ""
+
+			$extensoes = @(
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"mssql.mssql",
+				"mtxr.sqltools",
+				"ms-toolsai.jupyter",
+				"ms-toolsai.datawrangler",
+				"njpwerner.autodocstring",
+				"kevinrose.vsc-python-indent",
+				"njpwerner.autodocstring",
+				"coenraads.bracket-pair-colorizer-2",
+				"christian-kohler.path-intellisense",
+				"littlefoxteam.vscode-python-test-adapter",
+				"ms-python.black-formatter",
+				"ms-python.isort",
+				"ms-python.flake8",
+				"ms-python.debugpy",
+				"cweijan.vscode-database-client2",
+				"grapecity.gc-excelviewer",
+				"mechatroner.rainbow-csv"
+			)
+
+			$instaladas = code --list-extensions
+
+			foreach ($ext in $extensoes) {
+				if ($instaladas -notcontains $ext) {
+					Write-Host "Instalando $ext..."
+					code --install-extension $ext
+				} else {
+					Write-Host "$ext ja instalada"
+				}
+			}
+
+			Write-Host ""
+			Write-Host "Instalacao concluida!"
+			Write-Host ""
+		}
+
+		# =================================== VERIFICAR PYTHON ===================================
+		"py_verificar_python" {
+		Write-Host "`n=== VERIFICAÇÃO DO AMBIENTE PYTHON ===" -ForegroundColor Cyan
+		
+		# Python
+		Write-Host "`nPython version:" -ForegroundColor Yellow
+		python --version 2>&1
+		
+		# Pip
+		Write-Host "`nPip version:" -ForegroundColor Yellow
+		pip --version
+		
+		# Pacotes importantes
+		Write-Host "`nPacotes instalados (principais):" -ForegroundColor Yellow
+		pip list | findstr -i "pandas pyodbc sqlalchemy dotenv numpy"
+		
+		# PATH do Python
+		Write-Host "`nLocalização do Python:" -ForegroundColor Yellow
+		where.exe python
+		
+		Write-Host "`n=== FIM ===" -ForegroundColor Cyan
+		}
+
+		# =================================== INSTALAR PYTHON ===================================
+		"py_instalar_python" {
+
+		Write-Host ""
+		Write-Host "=== INSTALACAO DO AMBIENTE PYTHON ==="
+		Write-Host ""
+
+		# Instalar Python via winget (recomendado)
+		Write-Host "Instalando Python..."
+		winget install Python.Python.3.12
+
+		# Atualizar pip
+		Write-Host "Atualizando pip..."
+		python -m pip install --upgrade pip
+
+		# Instalar bibliotecas essenciais
+		Write-Host "Instalando pacotes Python..."
+		pip install pyodbc pandas SQLAlchemy python-dotenv
+
+		# Instalar driver ODBC
+		Write-Host "Instalando ODBC Driver 18..."
+		Start-BitsTransfer -Source "https://go.microsoft.com/fwlink/?linkid=2249006" -Destination "$env:TEMP\msodbcsql.msi"
+		Start-Process -Wait -FilePath msiexec -ArgumentList "/i `"$env:TEMP\msodbcsql.msi`" /quiet IACCEPTMSODBCSQLLICENSETERMS=YES"
+
+		# Instalar requirements se existir
+		if (Test-Path "requirements.txt") {
+			Write-Host "Instalando requirements.txt..."
+			pip install -r requirements.txt
+		}
+
+		Write-Host ""
+		Write-Host "=== INSTALACAO CONCLUIDA ==="
+		Write-Host ""
+		}
+
+		# =================================== AMBIENTE PYTHON ===================================
+		# =================================== AMBIENTE PYTHON ===================================
+
+# Criar ambiente virtual .venv na pasta atual
+"py_venv_criar" { 
+    Write-Host "Criando ambiente virtual .venv..." -ForegroundColor Yellow
+    python -m venv .venv
+    Write-Host "Ambiente criado! Para ativar:" -ForegroundColor Green
+    Write-Host ".\.venv\Scripts\Activate" -ForegroundColor Cyan
+}
+
+# Ativar ambiente virtual .venv
+"py_venv_ativar" { 
+    if (Test-Path ".\.venv\Scripts\Activate") {
+        .\.venv\Scripts\Activate
+        Write-Host "Ambiente .venv ATIVADO!" -ForegroundColor Green
+        Write-Host "Para desativar: deactivate" -ForegroundColor Yellow
+    } else {
+        Write-Host "Pasta .venv NAO encontrada! Crie com: z py_criar_venv" -ForegroundColor Red
+    }
+}
+
+# Instalar requirements (se existir)
+"py_requirements_instalar" { 
+    if (Test-Path "requirements.txt") {
+        Write-Host "Instalando pacotes do requirements.txt..." -ForegroundColor Yellow
+        pip install -r requirements.txt
+    } else {
+        Write-Host "Arquivo requirements.txt NAO encontrado!" -ForegroundColor Red
+    }
+}
+
+# Gerar requirements (congelar pacotes)
+"py_requirements_congelar" { 
+    Write-Host "Gerando requirements.txt com pacotes atuais..." -ForegroundColor Yellow
+    pip freeze > requirements.txt
+    Write-Host "Arquivo requirements.txt CRIADO!" -ForegroundColor Green
+}
+
+		# =================================== HELP ===================================
 		"help" {
 				Write-Host ""
 				Write-Host "=== USE SNIPPETS ==="
@@ -536,22 +578,22 @@ function z {
     }
 }
 
-# AUTOCOMPLETE
+		# =================================== AUTOCOMPLETE ===================================
 Register-ArgumentCompleter -CommandName z -ParameterName comando -ScriptBlock {
     param($commandName, $parameterName, $wordToComplete)
 
     $comandos = @(
-    "cola_vscode","cola_git","help","nav_buscar_por_nome","nav_desktop","nav_downloads","nav_home","nav_listar","nav_listar_ocultos","nav_listar_so_pastas",
-	"nav_listar_so_arquivos","nav_listar_recursivo","nav_volta_1_diretorio","nav_volta_2_diretorios","nav_volta_desktop","nav_volta_home","nav_onde_estou?",
-	"sys_abre_snippet_notepad","sys_abre_snippet_vscode","sys_atualizar_snippet","sys_bateria",	"sys_bios","sys_bluetooth","sys_diagnostico_bluetooth","sys_cpu",
-	"sys_disco_espaco","sys_discoinfo","sys_discos","sys_gpu","sys_impressoras","sys_ip","sys_ip_geral","sys_memoria_slots","sys_memorias",	"sys_modelo_pc","sys_particoes",
-	"sys_placa_mae","sys_programas_instalados","sys_rede","sys_sistema_operacional","sys_som",	"sys_usb","sys_usuarios","sys_inst_exten_inic_vscode",
-	"sys_inst_exten_py_sql","sys_verificar_python","sys_instalar_python","git_add","git_corrige_ultimo_commit","git_branch","git_branch_deletar","git_branch_criar_nova","git_checkout","git_checkout_cria_e_muda_de_branch",
-	"git_checkout_branch_para_salvar_commits_perdidos","git_checkout_head","git_checkout_head_arquivo","git_checkout_tag","git_clone","git_commit","git_config_user","git_config_global",
-	"git_salvar_credenciais","git_remover_credeciais_locais","git_remover_credeciais_globais","git_diff","git_fetch","git_status_ignore","git_ignore_criar","git_init","git_log",
-	"git_log_author","git_log_before","git_log_after","git_log_oneline","git_merge","git_pull","git_pull_origin","git_push","git_push_u","git_rebase","git_conectar_ao_GitHub",
-	"git_ver_repositorios_remotos","git_reset_hard","git_restore_staged","git_reset_soft","git_revert","git_mudar_nome","git_remover_arquivo","git_status","git_stash","git_stash_pop",
-	"git_tag","git_tag_push","git_tag_v"	
+    "cola_vscode","cola_git","help","nav_buscar_por_nome","nav_desktop","nav_downloads","nav_home","nav_listar","nav_listar_ocultos","nav_listar_so_pastas","nav_listar_so_arquivos",
+	"nav_listar_recursivo","nav_volta_1_diretorio","nav_volta_2_diretorios","nav_volta_desktop","nav_volta_home","nav_onde_estou?","sys_bateria","sys_bios","sys_bluetooth",
+	"sys_diagnostico_bluetooth","sys_cpu","sys_disco_espaco","sys_discoinfo","sys_discos","sys_gpu","sys_impressoras","sys_ip","sys_ip_geral","sys_memoria_slots","sys_memorias",
+	"sys_modelo_pc","sys_particoes","sys_placa_mae","sys_programas_instalados","sys_rede","sys_sistema_operacional","sys_som","sys_usb","sys_usuarios",
+	"sys_abre_snippet_notepad","sys_abre_snippet_vscode","sys_atualizar_snippet","sys_inst_exten_inic_vscode","git_status","git_add","git_commit","git_push","git_pull",
+	"git_log","git_branch","git_checkout","git_diff","git_stash","git_stash_pop","git_init","git_log_oneline","git_log_author","git_log_before","git_log_after",
+	"git_restore_staged","git_reset_hard","git_reset_soft","git_amend","git_revert","git_branch_D","git_merge","git_checkout_b","git_clone","git_remote_v",
+	"git_remote_add","git_push_u","git_pull_origin","git_fetch","git_rebase","git_tag","git_tag_v","git_tag_push","git_checkout_tag","git_switch_c",
+	"git_checkout_detached_fix","git_checkout_head","git_checkout_head_arquivo","git_config_user","git_config_global","git_credential_store","git_credential_unset",
+	"git_credential_unset_global","git_ignore_criar","git_status_ignore","git_mv","git_rm","py_inst_exten_py_sql","py_verificar_python","py_instalar_python","py_venv_criar",
+	"py_venv_ativar","py_requirements_instalar","py_requirements_congelar"
 	)
 
     $comandos | Where-Object { $_ -like "$wordToComplete*" } |
@@ -560,13 +602,13 @@ Register-ArgumentCompleter -CommandName z -ParameterName comando -ScriptBlock {
     }
 }
 
-# MENU COM TAB
+		# =================================== MENU COM TAB ===================================
 Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 
-# MENSAGEM quando abre o terminal
+		# =================================== MENSAGEM quando abre o terminal ===================================
 Write-Host "Perfil PowerShell carregado!" -ForegroundColor Green 
 
-# ENDEREÇO onde o VSCode pesquisa o arquivo com snippets
+		# =================================== ENDEREÇO onde o VSCode pesquisa o arquivo com snippets ===================================
 function code {
     # mude o caminho do usuário: 
 	#C:\Users\vinic\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd
