@@ -509,6 +509,10 @@ function z {
 		Start-BitsTransfer -Source "https://go.microsoft.com/fwlink/?linkid=2249006" -Destination "$env:TEMP\msodbcsql.msi"
 		Start-Process -Wait -FilePath msiexec -ArgumentList "/i `"$env:TEMP\msodbcsql.msi`" /quiet IACCEPTMSODBCSQLLICENSETERMS=YES"
 
+		# Instalar Selenium
+		Write-Host "Instalando pacotes Python..."
+		pip install selenium
+
 		# Instalar requirements se existir
 		if (Test-Path "requirements.txt") {
 			Write-Host "Instalando requirements.txt..."
@@ -613,5 +617,5 @@ function code {
     # mude o caminho do usuário: 
 	#C:\Users\vinic\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd
 	#C:\Users\marcus.silva05\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd
-    & "C:\Users\vinic\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd" @args
+    & "C:\Users\marcus.silva05\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd" @args
 }
