@@ -605,28 +605,20 @@
 "FUNCAO_NAVEGADOR": {
 	"prefix": "znav",
 	"body": [
-		"# Após zcmd",
-		"from selenium import webdriver",
-		"from selenium.webdriver.edge.options import Options  # ou chrome ou firefox",
+		"${1:# Após zcmd}",
+		"${2:from selenium import webdriver}",
+		"from selenium.webdriver.${3:edge}.options import Options  # ou chrome ou firefox",
 		"from selenium.webdriver.common.by import By",
 		"from selenium.webdriver.support.ui import Select",
 		"",
 		"def conectar():",
-		"    \"\"\"Conecta ao Edge ja aberto em modo debug\"\"\"",
-		"    print(\"🔌 Conectando ao Edge...\")  # ou Chrome ou Firefox",
+		"    print(\"🔌 Conectando ao ${4:Edge}...\")  # ou Chrome ou Firefox",
 		"    options = Options()",
 		"    options.add_experimental_option(\"debuggerAddress\", \"127.0.0.1:9222\")",
-		"    driver = webdriver.Edge(options=options)  # ou Chrome ou Firefox",
+		"    driver = webdriver.${5:Edge}(options=options)  # ou Chrome ou Firefox",
 		"    print(\"✅ Conectado!\")",
 		"    return driver",
 		"driver = conectar()",
-		"",
-		"# 5 LINHAS ABAIXO É SÓ TESTE DE CONEXÃO",
-		"print(f\"\\n🌐 Navegando...\")",
-		"driver.get(\"https://www.google.com\")",
-		"print(f\"✅ Página carregada: {driver.title}\")",
-		"input(\"\\n⏸️ Pressione ENTER para fechar...\")",
-		"driver.quit()"
 	],
 	"description": "Navegadores após uso do cmd adm navegador debugado (Edge, Chrome ou Firefox)"
 }
