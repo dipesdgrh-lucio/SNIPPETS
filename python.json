@@ -601,49 +601,36 @@
 	"description": "Módulo Principal de exploracao de sites com o webdriver do Selenium"
 },
 
-// modulo_navegadores
-"modulo_navegadores": {
-	"prefix": "zmodnav",
-	"body": [
-		"from selenium.webdriver.edge.options import Options as EdgeOptions",
-		"from selenium.webdriver.chrome.options import Options as ChromeOptions",
-		"from selenium.webdriver.firefox.options import Options  as FirefoxOptions"
-	],
-	"description": "Modulos de navegadores (Edge, Chrome, Firefox)"
-},
-
 // FUNCAO_NAVEGADOR
 "FUNCAO_NAVEGADOR": {
-	"prefix": "zfuncnav",
+	"prefix": "znav",
 	"body": [
-		"def conectar_edge():",
+		"# Após zcmd",
+		"from selenium import webdriver",
+		"from selenium.webdriver.edge.options import Options  # ou chrome ou firefox",
+		"from selenium.webdriver.common.by import By",
+		"from selenium.webdriver.support.ui import Select",
+		"import json",
+		"import time",
+		"",
+		"def conectar():",
 		"    \"\"\"Conecta ao Edge ja aberto em modo debug\"\"\"",
-		"    print(\"🔌 Conectando ao Edge...\")",
-		"    options = EdgeOptions()",
+		"    print(\"🔌 Conectando ao Edge...\")  # ou Chrome ou Firefox",
+		"    options = Options()",
 		"    options.add_experimental_option(\"debuggerAddress\", \"127.0.0.1:9222\")",
-		"    driver = webdriver.Edge(options=options)",
+		"    driver = webdriver.Edge(options=options)  # ou Chrome ou Firefox",
 		"    print(\"✅ Conectado!\")",
 		"    return driver",
+		"driver = conectar()",
 		"",
-		"def conectar_chrome():",
-		"    \"\"\"Conecta ao Chrome ja aberto em modo debug\"\"\"",
-		"    print(\"🔌 Conectando ao Chrome...\")",
-		"    options = ChromeOptions()",
-		"    options.add_experimental_option(\"debuggerAddress\", \"127.0.0.1:9222\")",
-		"    driver = webdriver.Chrome(options=options)",
-		"    print(\"✅ Conectado!\")",
-		"    return driver",
-		"",
-		"def conectar_firefox():",
-		"    \"\"\"Conecta ao Firefox ja aberto em modo debug\"\"\"",
-		"    print(\"🔌 Conectando ao Firefox...\")",
-		"    options = FirefoxOptions()",
-		"    options.add_experimental_option(\"debuggerAddress\", \"127.0.0.1:9222\")",
-		"    driver = webdriver.Firefox(options=options)",
-		"    print(\"✅ Conectado!\")",
-		"    return driver"
+		"# 5 LINHAS ABAIXO É SÓ TESTE DE CONEXÃO",
+		"print(f\"\\n🌐 Navegando...\")",
+		"driver.get(\"https://www.google.com\")",
+		"print(f\"✅ Página carregada: {driver.title}\")",
+		"input(\"\\n⏸️ Pressione ENTER para fechar...\")",
+		"driver.quit()"
 	],
-	"description": "Funcoes para conectar navegadores em modo debug (Edge, Chrome, Firefox)"
+	"description": "Navegadores após uso do cmd adm navegador debugado (Edge, Chrome ou Firefox)"
 }
 
 }
