@@ -566,6 +566,29 @@
 			""
 		],
 		"description": "Procurar Termo nos DADOS das Tabelas (NÃO BD/TABELAS) PESADO"
-	}
+	},
+
+	// cabecalho_explorador
+"cabecalho_explorador": {
+	"prefix": "zcabextr",
+	"body": [
+		"# usar outro interpretador de python / digite Ctrl+Shift+P / procure por \"Python: Select Interpreter\" / Escolha o Python 3.12",
+		"# abra o prompt de comando como adm e digite para executar o Edge com: start msedge --remote-debugging-port=9222 --user-data-dir=C:\\temp\\edge_debug",
+		"# se nao der com o edge, use o Chrome abrindo o prompt de comando como adm e digite: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --remote-debugging-port=9222 --user-data-dir=C:\\temp\\chrome_debug",
+		"# va ate a pagina https://sed.educacao.sp.gov.br/Funcional/UA_Alocacao/Index com as credenciais (login e senha)",
+		"# C:\\Users\\marcus.silva05\\Desktop\\GIT\\Web_Scraping\\explorar_site.py",
+		"# EXPLORADOR COMPLETO DE SITES - Descobre elementos automaticamente"
+	],
+	"description": "Cabecalho de explorador de sites com Selenium"
+},
+
+// modulo_principal
+"modulo_principal": {
+	"prefix": "zmodprinc",
+	"body": [
+		"from selenium import webdriver     # Núcleo: controla o navegador (abrir, fechar, navegar)"
+	],
+	"description": "Módulo Principal de explorador de sites com Selenium"
+}
 
 }
