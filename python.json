@@ -610,8 +610,6 @@
 		"from selenium.webdriver.edge.options import Options  # ou chrome ou firefox",
 		"from selenium.webdriver.common.by import By",
 		"from selenium.webdriver.support.ui import Select",
-		"import json",
-		"import time",
 		"",
 		"def conectar():",
 		"    \"\"\"Conecta ao Edge ja aberto em modo debug\"\"\"",
