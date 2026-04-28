@@ -566,29 +566,84 @@
 			""
 		],
 		"description": "Procurar Termo nos DADOS das Tabelas (NÃO BD/TABELAS) PESADO"
-	},
+},
 
 	// cabecalho_explorador
 "cabecalho_explorador": {
 	"prefix": "zcabextr",
 	"body": [
 		"# usar outro interpretador de python / digite Ctrl+Shift+P / procure por \"Python: Select Interpreter\" / Escolha o Python 3.12",
-		"# abra o prompt de comando como adm e digite para executar o Edge com: start msedge --remote-debugging-port=9222 --user-data-dir=C:\\temp\\edge_debug",
-		"# se nao der com o edge, use o Chrome abrindo o prompt de comando como adm e digite: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --remote-debugging-port=9222 --user-data-dir=C:\\temp\\chrome_debug",
-		"# va ate a pagina https://sed.educacao.sp.gov.br/Funcional/UA_Alocacao/Index com as credenciais (login e senha)",
-		"# C:\\Users\\marcus.silva05\\Desktop\\GIT\\Web_Scraping\\explorar_site.py",
+		"# execute o comando zcmd para abrir o navegador em modo debug (ex: zcmd + enter)",
 		"# EXPLORADOR COMPLETO DE SITES - Descobre elementos automaticamente"
 	],
 	"description": "Cabecalho de explorador de sites com Selenium"
 },
 
-// modulo_principal
-"modulo_principal": {
+	// abrir_navegador_por_debug_pelo_cmd
+"abrir_navegador_por_debug_pelo_cmd": {
+	"prefix": "zcmd",
+	"body": [
+		"# porta padrão 9222, mas pode ser qualquer porta disponível entre 1024 e 65535",
+		"# host padrão para qualquer máquina: 127.0.0.1 ou localhost",
+		"# debug edge: ${1:start msedge --remote-debugging-port=9222 --user-data-dir=C:\\temp\\edge_debug}",
+		"# debug chrome: ${2:\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --remote-debugging-port=9222 --user-data-dir=C:\\temp\\chrome_debug}",
+		"# debug firefox: ${3:"C:\Program Files\Mozilla Firefox\firefox.exe" --remote-debugging-port 9222}"
+	],
+	"description": "Abre o Site via CMD ADM para usar com Selenium via Debug"
+},
+
+// modulo_principal_webdriver
+"modulo_principal_webdriver": {
 	"prefix": "zmodprinc",
 	"body": [
 		"from selenium import webdriver     # Núcleo: controla o navegador (abrir, fechar, navegar)"
 	],
-	"description": "Módulo Principal de explorador de sites com Selenium"
+	"description": "Módulo Principal de exploracao de sites com o webdriver do Selenium"
+},
+
+// modulo_navegadores
+"modulo_navegadores": {
+	"prefix": "zmodnav",
+	"body": [
+		"from selenium.webdriver.edge.options import Options as EdgeOptions",
+		"from selenium.webdriver.chrome.options import Options as ChromeOptions",
+		"from selenium.webdriver.firefox.options import Options  as FirefoxOptions"
+	],
+	"description": "Modulos de navegadores (Edge, Chrome, Firefox)"
+},
+
+// FUNCAO_NAVEGADOR
+"FUNCAO_NAVEGADOR": {
+	"prefix": "zfuncnav",
+	"body": [
+		"def conectar_edge():",
+		"    \"\"\"Conecta ao Edge ja aberto em modo debug\"\"\"",
+		"    print(\"🔌 Conectando ao Edge...\")",
+		"    options = EdgeOptions()",
+		"    options.add_experimental_option(\"debuggerAddress\", \"127.0.0.1:9222\")",
+		"    driver = webdriver.Edge(options=options)",
+		"    print(\"✅ Conectado!\")",
+		"    return driver",
+		"",
+		"def conectar_chrome():",
+		"    \"\"\"Conecta ao Chrome ja aberto em modo debug\"\"\"",
+		"    print(\"🔌 Conectando ao Chrome...\")",
+		"    options = ChromeOptions()",
+		"    options.add_experimental_option(\"debuggerAddress\", \"127.0.0.1:9222\")",
+		"    driver = webdriver.Chrome(options=options)",
+		"    print(\"✅ Conectado!\")",
+		"    return driver",
+		"",
+		"def conectar_firefox():",
+		"    \"\"\"Conecta ao Firefox ja aberto em modo debug\"\"\"",
+		"    print(\"🔌 Conectando ao Firefox...\")",
+		"    options = FirefoxOptions()",
+		"    options.add_experimental_option(\"debuggerAddress\", \"127.0.0.1:9222\")",
+		"    driver = webdriver.Firefox(options=options)",
+		"    print(\"✅ Conectado!\")",
+		"    return driver"
+	],
+	"description": "Funcoes para conectar navegadores em modo debug (Edge, Chrome, Firefox)"
 }
 
 }
