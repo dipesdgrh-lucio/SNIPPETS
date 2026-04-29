@@ -507,7 +507,8 @@ function z {
 
 		# Instalar bibliotecas essenciais
 		Write-Host "Instalando pacotes Python..."
-		pip install pyodbc pandas SQLAlchemy python-dotenv
+		pip install pyodbc pandas SQLAlchemy python-dotenv		
+		pip install pandas sqlalchemy pyodbc
 
 		# Instalar driver ODBC
 		Write-Host "Instalando ODBC Driver 18..."
