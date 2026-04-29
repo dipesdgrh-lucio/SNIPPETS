@@ -510,8 +510,12 @@ function z {
 		Start-Process -Wait -FilePath msiexec -ArgumentList "/i `"$env:TEMP\msodbcsql.msi`" /quiet IACCEPTMSODBCSQLLICENSETERMS=YES"
 
 		# Instalar Selenium
-		Write-Host "Instalando pacotes Python..."
+		Write-Host "Instalando pacotes Selenium..."
 		pip install selenium
+
+		# Instalar gerenciador automático para o Edge
+		Write-Host "Instalando pacotes webdriver-manager..."
+		pip install webdriver-manager
 
 		# Instalar requirements se existir
 		if (Test-Path "requirements.txt") {
