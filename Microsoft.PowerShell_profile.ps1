@@ -522,7 +522,7 @@ function z {
 
 		# Instalar Requests
 		Write-Host "Instalando pacotes Requests..."
-		pip install requests
+		python -m pip install requests
 
 		# Instalar requirements se existir
 		if (Test-Path "requirements.txt") {
@@ -573,12 +573,6 @@ function z {
     Write-Host "Arquivo requirements.txt CRIADO!" -ForegroundColor Green
 }
 
-# Instalar requirements 
-"py_requirements_baixar" { 
-    Write-Host "Instalando requirements.txt com pacotes necessários ao projeto..." -ForegroundColor Yellow
-    pip install -r requirements.txt
-    Write-Host "Arquivo requirements.txt BAIXADOS!" -ForegroundColor Green
-}
 
 		# =================================== HELP ===================================
 		"help" {
