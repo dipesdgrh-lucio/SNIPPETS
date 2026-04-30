@@ -75,6 +75,7 @@ function z {
 		}
 		"sys_bios" { Get-WmiObject Win32_BIOS | Select-Object -ExpandProperty SMBIOSBIOSVersion }
 		"sys_cpu" { Get-WmiObject Win32_Processor | Format-Table Name, MaxClockSpeed, NumberOfCores -AutoSize }
+		"sys_chrome_modo_debug" { cmd /c start chrome --remote-debugging-port=9222 --user-data-dir=C:\temp\chrome_debug }
 		"sys_discoinfo" { Get-WmiObject Win32_DiskDrive | Format-Table DeviceID, Caption, @{Label="Size(GB)";Expression={[math]::round($_.Size/1GB,2)}}, MediaType }
 		"sys_discos" { Get-PSDrive -PSProvider FileSystem | Select-Object -ExpandProperty Name }
 		"sys_disco_espaco" { Get-PSDrive -PSProvider FileSystem | Format-Table Name, @{Label="Used(GB)";Expression={[math]::round($_.Used/1GB,2)}}, @{Label="Free(GB)";Expression={[math]::round($_.Free/1GB,2)}} }
@@ -602,7 +603,7 @@ Register-ArgumentCompleter -CommandName z -ParameterName comando -ScriptBlock {
     $comandos = @(
     "cola_vscode","cola_git","help","nav_buscar_por_nome","nav_desktop","nav_downloads","nav_home","nav_listar","nav_listar_ocultos","nav_listar_so_pastas","nav_listar_so_arquivos",
 	"nav_listar_recursivo","nav_volta_1_diretorio","nav_volta_2_diretorios","nav_volta_desktop","nav_volta_home","nav_onde_estou?","sys_bateria","sys_bios","sys_bluetooth",
-	"sys_diagnostico_bluetooth","sys_cpu","sys_disco_espaco","sys_discoinfo","sys_discos","sys_edge_modo_debug","sys_edge_encerar_processos","sys_edge_ouvindo_porta",
+	"sys_diagnostico_bluetooth","sys_chrome_modo_debug","sys_cpu","sys_disco_espaco","sys_discoinfo","sys_discos","sys_edge_modo_debug","sys_edge_encerar_processos","sys_edge_ouvindo_porta",
 	"sys_edge_verificacao","sys_gpu","sys_impressoras","sys_ip","sys_ip_geral","sys_memoria_slots","sys_memorias",
 	"sys_modelo_pc","sys_particoes","sys_placa_mae","sys_programas_instalados","sys_rede","sys_sistema_operacional","sys_som","sys_usb","sys_usuarios",
 	"sys_abre_snippet_notepad","sys_abre_snippet_vscode","sys_atualizar_snippet","sys_inst_exten_inic_vscode","git_status","git_add","git_commit","git_push","git_pull",
@@ -631,5 +632,5 @@ function code {
     # mude o caminho do usuário: 
 	#C:\Users\vinic\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd
 	#C:\Users\marcus.silva05\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd
-    & "C:\Users\marcus.silva05\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd" @args
+    & "C:\Users\vinic\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd" @args
 }
