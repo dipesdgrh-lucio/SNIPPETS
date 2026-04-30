@@ -2015,7 +2015,7 @@
         "     REGIAO             ,",
         "     CD_DIRETORIA AS CD_URE,",
         "     NOMEDE  AS URE     ,",
-        "     CD_INEP  AS CIE    ,",
+        "     CD_INEP  AS INEP   ,",
         "     DZ_ZONA            ,",
         "     CATESC             ,",
         "     TPESC              ,",
