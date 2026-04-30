@@ -569,7 +569,7 @@ function z {
 # Gerar requirements (congelar pacotes)
 "py_requirements_congelar" { 
     Write-Host "Gerando requirements.txt com pacotes atuais..." -ForegroundColor Yellow
-    pip freeze > requirements.txt
+    python -m pip freeze 
     Write-Host "Arquivo requirements.txt CRIADO!" -ForegroundColor Green
 }
 
