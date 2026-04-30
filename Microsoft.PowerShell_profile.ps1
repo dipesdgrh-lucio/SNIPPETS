@@ -507,7 +507,7 @@ function z {
 
 		# Instalar bibliotecas essenciais
 		Write-Host "Instalando pacotes Python..."
-		pip install pyodbc pandas SQLAlchemy python-dotenv		
+		pip install pyodbc pandas SQLAlchemy python-dotenv
 		pip install pandas sqlalchemy pyodbc
 
 		# Instalar driver ODBC
@@ -569,6 +569,13 @@ function z {
     Write-Host "Arquivo requirements.txt CRIADO!" -ForegroundColor Green
 }
 
+# Instalar requirements 
+"py_requirements_baixar" { 
+    Write-Host "Instalando requirements.txt com pacotes necessários ao projeto..." -ForegroundColor Yellow
+    pip install -r requirements.txt
+    Write-Host "Arquivo requirements.txt BAIXADOS!" -ForegroundColor Green
+}
+
 		# =================================== HELP ===================================
 		"help" {
 				Write-Host ""
@@ -604,7 +611,7 @@ Register-ArgumentCompleter -CommandName z -ParameterName comando -ScriptBlock {
 	"git_remote_add","git_push_u","git_pull_origin","git_fetch","git_rebase","git_tag","git_tag_v","git_tag_push","git_checkout_tag","git_switch_c",
 	"git_checkout_detached_fix","git_checkout_head","git_checkout_head_arquivo","git_config_user","git_config_global","git_credential_store","git_credential_unset",
 	"git_credential_unset_global","git_ignore_criar","git_status_ignore","git_mv","git_rm","py_inst_exten_py_sql","py_verificar_python","py_instalar_python","py_venv_criar",
-	"py_venv_ativar","py_requirements_instalar","py_requirements_congelar"
+	"py_venv_ativar","py_requirements_baixar","py_requirements_instalar","py_requirements_congelar"
 	)
 
     $comandos | Where-Object { $_ -like "$wordToComplete*" } |
