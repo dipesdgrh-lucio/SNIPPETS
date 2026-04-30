@@ -520,6 +520,10 @@ function z {
 		Write-Host "Instalando pacotes Python..."
 		pip install selenium
 
+		# Instalar Requests
+		Write-Host "Instalando pacotes Requests..."
+		pip install requests
+
 		# Instalar requirements se existir
 		if (Test-Path "requirements.txt") {
 			Write-Host "Instalando requirements.txt..."
@@ -531,7 +535,6 @@ function z {
 		Write-Host ""
 		}
 
-		# =================================== AMBIENTE PYTHON ===================================
 		# =================================== AMBIENTE PYTHON ===================================
 
 # Criar ambiente virtual .venv na pasta atual
@@ -632,5 +635,5 @@ function code {
     # mude o caminho do usuário: 
 	#C:\Users\vinic\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd
 	#C:\Users\marcus.silva05\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd
-    & "C:\Users\vinic\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd" @args
+    & "C:\Users\marcus.silva05\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd" @args
 }
