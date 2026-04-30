@@ -482,7 +482,7 @@ function z {
 		
 		# Pacotes importantes
 		Write-Host "`nPacotes instalados (principais):" -ForegroundColor Yellow
-		pip list | findstr -i "pandas pyodbc sqlalchemy dotenv numpy"
+		python -m pip list | findstr -i "pandas pyodbc sqlalchemy dotenv numpy"
 		
 		# PATH do Python
 		Write-Host "`nLocalização do Python:" -ForegroundColor Yellow
@@ -508,8 +508,8 @@ function z {
 
 		# Instalar bibliotecas essenciais
 		Write-Host "Instalando pacotes Python..."
-		pip install pyodbc pandas SQLAlchemy python-dotenv
-		pip install pandas sqlalchemy pyodbc
+		python -m pip install pyodbc pandas SQLAlchemy python-dotenv
+		python -m pip install pandas sqlalchemy pyodbc
 
 		# Instalar driver ODBC
 		Write-Host "Instalando ODBC Driver 18..."
@@ -518,7 +518,7 @@ function z {
 
 		# Instalar Selenium
 		Write-Host "Instalando pacotes Python..."
-		pip install selenium
+		python -m pip install selenium
 
 		# Instalar Requests
 		Write-Host "Instalando pacotes Requests..."
@@ -527,7 +527,7 @@ function z {
 		# Instalar requirements se existir
 		if (Test-Path "requirements.txt") {
 			Write-Host "Instalando requirements.txt..."
-			pip install -r requirements.txt
+			python -m pip install -r requirements.txt
 		}
 
 		Write-Host ""
@@ -569,7 +569,7 @@ function z {
 # Gerar requirements (congelar pacotes)
 "py_requirements_congelar" { 
     Write-Host "Gerando requirements.txt com pacotes atuais..." -ForegroundColor Yellow
-    python -m pip freeze 
+    python -m pip freeze > requirements.txt
     Write-Host "Arquivo requirements.txt CRIADO!" -ForegroundColor Green
 }
 
