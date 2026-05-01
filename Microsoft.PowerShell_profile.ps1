@@ -123,7 +123,7 @@ function z {
 				"donjayamanne.githistory",
 				"eamodio.gitlens",
 				"mhutchie.git-graph",                  # Visualização gráfica do Git
-				"codezombiech.gitignore",              # Templates .gitignore
+				"codezombiech.gitignore"               # Templates .gitignore
 			)
 
 			$instaladas = code --list-extensions
@@ -836,7 +836,7 @@ function z {
 		cargo --version	
 		}
 
-"rs_criar_gitignore" {
+	"rs_criar_gitignore" {
 	if (-not (Test-Path ".gitignore")) {
 		@"
 /target/
