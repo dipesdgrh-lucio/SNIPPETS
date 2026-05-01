@@ -482,7 +482,7 @@ function z {
 		
 		# Pacotes importantes
 		Write-Host "`nPacotes instalados (principais):" -ForegroundColor Yellow
-		python -m pip list | findstr -i "pandas pyodbc sqlalchemy dotenv numpy"
+		pip list | findstr -i "pandas pyodbc sqlalchemy dotenv numpy"
 		
 		# PATH do Python
 		Write-Host "`nLocalização do Python:" -ForegroundColor Yellow
@@ -508,8 +508,8 @@ function z {
 
 		# Instalar bibliotecas essenciais
 		Write-Host "Instalando pacotes Python..."
-		python -m pip install pyodbc pandas SQLAlchemy python-dotenv
-		python -m pip install pandas sqlalchemy pyodbc
+		pip install pyodbc pandas SQLAlchemy python-dotenv
+		pip install pandas sqlalchemy pyodbc
 
 		# Instalar driver ODBC
 		Write-Host "Instalando ODBC Driver 18..."
@@ -518,16 +518,12 @@ function z {
 
 		# Instalar Selenium
 		Write-Host "Instalando pacotes Python..."
-		python -m pip install selenium
-
-		# Instalar Requests
-		Write-Host "Instalando pacotes Requests..."
-		python -m pip install requests
+		pip install selenium
 
 		# Instalar requirements se existir
 		if (Test-Path "requirements.txt") {
 			Write-Host "Instalando requirements.txt..."
-			python -m pip install -r requirements.txt
+			pip install -r requirements.txt
 		}
 
 		Write-Host ""
@@ -535,6 +531,7 @@ function z {
 		Write-Host ""
 		}
 
+		# =================================== AMBIENTE PYTHON ===================================
 		# =================================== AMBIENTE PYTHON ===================================
 
 # Criar ambiente virtual .venv na pasta atual
@@ -569,10 +566,43 @@ function z {
 # Gerar requirements (congelar pacotes)
 "py_requirements_congelar" { 
     Write-Host "Gerando requirements.txt com pacotes atuais..." -ForegroundColor Yellow
-    python -m pip freeze > requirements.txt
+    pip freeze > requirements.txt
     Write-Host "Arquivo requirements.txt CRIADO!" -ForegroundColor Green
 }
 
+# Instalar requirements 
+"py_requirements_baixar" { 
+    Write-Host "Instalando requirements.txt com pacotes necessários ao projeto..." -ForegroundColor Yellow
+    pip install -r requirements.txt
+    Write-Host "Arquivo requirements.txt BAIXADOS!" -ForegroundColor Green
+}
+
+# =================================== RUST ===================================
+
+		# Instalar Rust
+		"rs_instal" {
+		Write-Host "`n Instalando Rust:" -ForegroundColor Yellow
+		winget install Rustlang.Rustup
+		}	
+		
+		# Path Rust no PS
+		"rs_path" {
+		Write-Host "`n adicionar a pasta do Rust ao PATH apenas para esta janela:" -ForegroundColor Yellow
+		$env:Path = "C:\Users\vinic\.cargo\bin;$env:Path"
+		}		
+
+		# Arquivo Principal
+		"rs_principal" {
+		Write-Host "`n Arquivo Principal:" -ForegroundColor Yellow
+		notepad src/main.rs
+		}
+
+		# Verifica Instalação
+		"rs_verifica_install" {
+		Write-Host "`n Instalação Rust:" -ForegroundColor Yellow
+		rustc --version
+		cargo --version	
+		}	
 
 		# =================================== HELP ===================================
 		"help" {
@@ -609,7 +639,7 @@ Register-ArgumentCompleter -CommandName z -ParameterName comando -ScriptBlock {
 	"git_remote_add","git_push_u","git_pull_origin","git_fetch","git_rebase","git_tag","git_tag_v","git_tag_push","git_checkout_tag","git_switch_c",
 	"git_checkout_detached_fix","git_checkout_head","git_checkout_head_arquivo","git_config_user","git_config_global","git_credential_store","git_credential_unset",
 	"git_credential_unset_global","git_ignore_criar","git_status_ignore","git_mv","git_rm","py_inst_exten_py_sql","py_verificar_python","py_instalar_python","py_venv_criar",
-	"py_venv_ativar","py_requirements_baixar","py_requirements_instalar","py_requirements_congelar"
+	"py_venv_ativar","py_requirements_baixar","py_requirements_instalar","py_requirements_congelar","rs_instal","rs_path","rs_principal","rs_verifica_install"
 	)
 
     $comandos | Where-Object { $_ -like "$wordToComplete*" } |
@@ -629,5 +659,5 @@ function code {
     # mude o caminho do usuário: 
 	#C:\Users\vinic\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd
 	#C:\Users\marcus.silva05\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd
-    & "C:\Users\marcus.silva05\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd" @args
+    & "C:\Users\vinic\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd" @args
 }
