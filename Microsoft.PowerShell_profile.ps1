@@ -482,7 +482,7 @@ function z {
 		
 		# Pacotes importantes
 		Write-Host "`nPacotes instalados (principais):" -ForegroundColor Yellow
-		pip list | findstr -i "pandas pyodbc sqlalchemy dotenv numpy"
+		python -m pip list | findstr -i "pandas pyodbc sqlalchemy dotenv numpy"
 		
 		# PATH do Python
 		Write-Host "`nLocalização do Python:" -ForegroundColor Yellow
@@ -508,8 +508,8 @@ function z {
 
 		# Instalar bibliotecas essenciais
 		Write-Host "Instalando pacotes Python..."
-		pip install pyodbc pandas SQLAlchemy python-dotenv
-		pip install pandas sqlalchemy pyodbc
+		python -m pip install pyodbc pandas SQLAlchemy python-dotenv
+		python -m pip install pandas sqlalchemy pyodbc
 
 		# Instalar driver ODBC
 		Write-Host "Instalando ODBC Driver 18..."
@@ -518,12 +518,16 @@ function z {
 
 		# Instalar Selenium
 		Write-Host "Instalando pacotes Python..."
-		pip install selenium
+		python -m pip install selenium
+
+		# Instalar Requests
+		Write-Host "Instalando pacotes Requests..."
+		python -m pip install requests
 
 		# Instalar requirements se existir
 		if (Test-Path "requirements.txt") {
 			Write-Host "Instalando requirements.txt..."
-			pip install -r requirements.txt
+			python -m pip install -r requirements.txt
 		}
 
 		Write-Host ""
@@ -531,7 +535,6 @@ function z {
 		Write-Host ""
 		}
 
-		# =================================== AMBIENTE PYTHON ===================================
 		# =================================== AMBIENTE PYTHON ===================================
 
 # Criar ambiente virtual .venv na pasta atual
@@ -566,16 +569,10 @@ function z {
 # Gerar requirements (congelar pacotes)
 "py_requirements_congelar" { 
     Write-Host "Gerando requirements.txt com pacotes atuais..." -ForegroundColor Yellow
-    pip freeze > requirements.txt
+    python -m pip freeze > requirements.txt
     Write-Host "Arquivo requirements.txt CRIADO!" -ForegroundColor Green
 }
 
-# Instalar requirements 
-"py_requirements_baixar" { 
-    Write-Host "Instalando requirements.txt com pacotes necessários ao projeto..." -ForegroundColor Yellow
-    pip install -r requirements.txt
-    Write-Host "Arquivo requirements.txt BAIXADOS!" -ForegroundColor Green
-}
 
 		# =================================== HELP ===================================
 		"help" {
@@ -632,5 +629,5 @@ function code {
     # mude o caminho do usuário: 
 	#C:\Users\vinic\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd
 	#C:\Users\marcus.silva05\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd
-    & "C:\Users\vinic\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd" @args
+    & "C:\Users\marcus.silva05\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd" @args
 }
