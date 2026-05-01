@@ -1,4 +1,6 @@
-# ===== INSTRUÇÕES =====
+# ===========================================================
+# INSTRUÇÕES
+# ===========================================================
 # no PS ADMNISTRADOR digite e excute os comandos: 
 # Get-ExecutionPolicy 
 # Verifique a política atual se NÃO for restricted, ok, se for restrita então
@@ -23,8 +25,10 @@ function z {
     )
 
     switch ($comando) {	
-		
-		# =================================== POWER SHELL ===================================
+
+# ===========================================================
+# NAVEGAÇÃO POWER SHELL
+# ===========================================================
 		"nav_buscar_por_nome" { Get-ChildItem -Filter "*documen*" -File -Recurse }
 		"nav_desktop" { Set-Location ~/Desktop }
 		"nav_downloads" { Set-Location ~/Downloads }		
@@ -39,6 +43,10 @@ function z {
 		"nav_volta_2_diretorios" { Set-Location ..\.. }
 		"nav_volta_desktop" { Set-Location ~/Desktop }
 		"nav_volta_home" { Set-Location ~ }
+
+# ===========================================================
+# CONFIGURAÇÕES DO SISTEMA
+# ===========================================================
 		"sys_bateria" { Get-WmiObject Win32_Battery | Format-Table Caption, EstimatedChargeRemaining }
 		"sys_bluetooth" { Get-WmiObject Win32_PnPEntity | Where-Object {$_.PNPClass -eq "Bluetooth"} | Format-Table Caption }
 		"sys_diagnostico_bluetooth" {
@@ -82,7 +90,6 @@ function z {
 		"sys_edge_modo_debug" { cmd /c start msedge --remote-debugging-port=9222 --user-data-dir=C:\temp\edge_debug }
 		"sys_edge_encerar_processos" { Get-Process msedge -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue }
 		"sys_edge_ouvindo_porta" { netstat -an | findstr 9222 }
-		"sys_edge_verificacao" { Get-Process msedge -ErrorAction SilentlyContinue | Select-Object -Property Id, ProcessName, StartTime }
 		"sys_edge_verificacao" { Get-Process msedge -ErrorAction SilentlyContinue }
 		"sys_gpu" { Get-WmiObject Win32_VideoController | Format-Table Caption, @{Label="RAM(MB)";Expression={[math]::round($_.AdapterRAM/1MB,2)}} }
 		"sys_impressoras" { Get-WmiObject Win32_Printer | Format-Table Name }
@@ -103,43 +110,20 @@ function z {
 		"sys_usb" { Get-WmiObject Win32_PnPSignedDriver | Format-Table DeviceName }
 		"sys_usuarios" { Get-LocalUser | Format-Table Name, Enabled }
 
-		# =================================== EXTENSÕES ===================================
-		"sys_inst_exten_inic_vscode" {
+# ===========================================================
+# EXTENSÕES DO VS CODE POR LINGUAGEM/FERRAMENTA
+# ===========================================================
 
+		"exten_git" {
 			Write-Host ""
-			Write-Host "Instalando extensoes do VS Code..."
+			Write-Host "Instalando extensoes GIT para VS Code..."
 			Write-Host ""
 
 			$extensoes = @(
-				"mads-hartmann.bash-ide-vscode",
-				"jeff-hykin.better-cpp-syntax",
-				"ms-vscode.cpptools",
-				"ms-vscode.cpptools-extension-pack",
-				"ms-vscode.cmake-tools",
-				"llvm-vs-code-extensions.vscode-clangd",
-				"xaver.clang-format",
-				"vadimcn.vscode-lldb",
-				"twxs.cmake",
-				"ms-vscode.makefile-tools",
-				"cschlosser.doxdocgen",
 				"donjayamanne.githistory",
 				"eamodio.gitlens",
-				"ritwickdey.liveserver",
-				"ms-vsliveshare.vsliveshare",
-				"yzhang.markdown-all-in-one",
-				"ms-ceintl.vscode-language-pack-pt-BR",
-				"ms-vscode.powershell",
-				"ms-python.python",
-				"ms-python.vscode-pylance",
-				"ms-python.debugpy",
-				"ms-vscode-remote.remote-ssh",
-				"ms-vscode-remote.remote-ssh-edit",
-				"ms-vscode-remote.remote-explorer",
-				"ms-vscode-remote.remote-wsl",
-				"foxundermoon.shell-format",
-				"alexcvzz.vscode-sqlite",
-				"mssql.mssql",
-				"rangav.vscode-thunder-client"
+				"mhutchie.git-graph",                  # Visualização gráfica do Git
+				"codezombiech.gitignore",              # Templates .gitignore
 			)
 
 			$instaladas = code --list-extensions
@@ -158,7 +142,256 @@ function z {
 			Write-Host ""
 		}
 
-		# =================================== COLA DE LISTA DE COMANDOS POWER SHELL ===================================
+		"exten_c" {
+			Write-Host ""
+			Write-Host "Instalando extensões para LINGUAGEM C/C++ no VS Code..."
+			Write-Host ""
+
+			$extensoes = @(
+				"jeff-hykin.better-cpp-syntax",
+				"ms-vscode.cpptools",
+				"ms-vscode.cpptools-extension-pack",
+				"ms-vscode.cmake-tools",
+				"llvm-vs-code-extensions.vscode-clangd",
+				"xaver.clang-format",
+				"vadimcn.vscode-lldb",
+				"twxs.cmake",
+				"ms-vscode.makefile-tools",
+				"cschlosser.doxdocgen"
+			)
+
+			$instaladas = code --list-extensions
+
+			foreach ($ext in $extensoes) {
+				if ($instaladas -notcontains $ext) {
+					Write-Host "Instalando $ext..."
+					code --install-extension $ext
+				} else {
+					Write-Host "$ext ja instalada"
+				}
+			}
+		
+			Write-Host ""
+			Write-Host "Instalacao concluida!"
+			Write-Host ""
+		}
+
+		"exten_python" {
+			Write-Host ""
+			Write-Host "Instalando extensões PYTHON + SQL para VS Code..."
+			Write-Host ""
+
+			$extensoes = @(
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"ms-python.debugpy",
+				"ms-toolsai.jupyter",
+				"ms-toolsai.datawrangler",
+				"njpwerner.autodocstring",
+				"kevinrose.vsc-python-indent",
+				"coenraads.bracket-pair-colorizer-2",
+				"christian-kohler.path-intellisense",
+				"littlefoxteam.vscode-python-test-adapter",
+				"ms-python.black-formatter",
+				"ms-python.isort",
+				"ms-python.flake8",
+				"ms-python.vscode-python-envs",      # Gerenciamento de ambientes virtuais
+				"VisualStudioExptTeam.vscodeintellicode", # AI IntelliCode
+				"bierner.markdown-preview-github-styles", # Markdown GitHub style
+				"gruntfuggly.todo-tree"              # Gerenciamento de TODO comments 
+			)
+
+			$instaladas = code --list-extensions
+
+			foreach ($ext in $extensoes) {
+				if ($instaladas -notcontains $ext) {
+					Write-Host "Instalando $ext..."
+					code --install-extension $ext
+				} else {
+					Write-Host "$ext ja instalada"
+				}
+			}
+
+			Write-Host ""
+			Write-Host "Instalacao concluida!"
+			Write-Host ""
+		}
+
+		"exten_sql" {
+			Write-Host ""
+			Write-Host "Instalando extensões SQL para VS Code..."
+			Write-Host ""
+
+			$extensoes = @(
+				"mssql.mssql",
+				"mtxr.sqltools",
+				"cweijan.vscode-database-client2",
+				"inferrinizard.prettier-sql-vscode",  # Formatação SQL
+				"benodie.sqlite-viewer",               # Visualizador SQLite
+				"qwtel.sqlite-viewer"                 # Alternativa SQLite
+			)
+
+			$instaladas = code --list-extensions
+
+			foreach ($ext in $extensoes) {
+				if ($instaladas -notcontains $ext) {
+					Write-Host "Instalando $ext..."
+					code --install-extension $ext
+				} else {
+					Write-Host "$ext ja instalada"
+				}
+			}
+
+			Write-Host ""
+			Write-Host "Instalacao concluida!"
+			Write-Host ""
+		}
+
+		"exten_rust" {
+			Write-Host ""
+			Write-Host "Instalando extensões RUST para VS Code..."
+			Write-Host ""
+
+			$extensoes = @(
+				"rust-lang.rust-analyzer",
+				"vadimcn.vscode-lldb",
+				"serayuzgur.crates",
+				"tamasfe.even-better-toml",
+				"fill-labs.dependi",
+				"dustypomerleau.rust-snippets",
+				"panicbit.cargo"                   # Comandos Cargo no VSCode
+			)
+
+			$instaladas = code --list-extensions
+
+			foreach ($ext in $extensoes) {
+				if ($instaladas -notcontains $ext) {
+					Write-Host "Instalando $ext..."
+					code --install-extension $ext
+				} else {
+					Write-Host "$ext ja instalada"
+				}
+			}
+
+			Write-Host ""
+			Write-Host "Instalacao concluida!"
+			Write-Host ""
+		}
+
+		"exten_geral" {
+			Write-Host ""
+			Write-Host "Instalando extensões GERAIS para VS Code..."
+			Write-Host ""
+
+			$extensoes = @(
+				"mads-hartmann.bash-ide-vscode",
+				"ritwickdey.liveserver",
+				"ms-vsliveshare.vsliveshare",
+				"yzhang.markdown-all-in-one",
+				"ms-ceintl.vscode-language-pack-pt-BR",
+				"ms-vscode.powershell",
+				"ms-vscode-remote.remote-ssh",
+				"ms-vscode-remote.remote-ssh-edit",
+				"ms-vscode-remote.remote-explorer",
+				"ms-vscode-remote.remote-wsl",
+				"foxundermoon.shell-format",
+				"alexcvzz.vscode-sqlite",
+				"rangav.vscode-thunder-client",
+				"grapecity.gc-excelviewer",
+				"mechatroner.rainbow-csv"
+			)
+
+			$instaladas = code --list-extensions
+
+			foreach ($ext in $extensoes) {
+				if ($instaladas -notcontains $ext) {
+					Write-Host "Instalando $ext..."
+					code --install-extension $ext
+				} else {
+					Write-Host "$ext ja instalada"
+				}
+			}
+		
+			Write-Host ""
+			Write-Host "Instalacao concluida!"
+			Write-Host ""
+		}
+
+		"exten_todas" {
+			Write-Host ""
+			Write-Host "Instalando TODAS as extensoes do VS Code..."
+			Write-Host ""
+
+			$extensoes = @(
+				# Git
+				"donjayamanne.githistory",
+				"eamodio.gitlens",
+				# C/C++
+				"jeff-hykin.better-cpp-syntax",
+				"ms-vscode.cpptools",
+				"ms-vscode.cpptools-extension-pack",
+				"ms-vscode.cmake-tools",
+				"llvm-vs-code-extensions.vscode-clangd",
+				"xaver.clang-format",
+				"vadimcn.vscode-lldb",
+				"twxs.cmake",
+				"ms-vscode.makefile-tools",
+				"cschlosser.doxdocgen",
+				# Python
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"ms-python.debugpy",
+				"ms-toolsai.jupyter",
+				"ms-toolsai.datawrangler",
+				"njpwerner.autodocstring",
+				"kevinrose.vsc-python-indent",
+				"coenraads.bracket-pair-colorizer-2",
+				"christian-kohler.path-intellisense",
+				"littlefoxteam.vscode-python-test-adapter",
+				"ms-python.black-formatter",
+				"ms-python.isort",
+				"ms-python.flake8",
+				# SQL
+				"mssql.mssql",
+				"mtxr.sqltools",
+				"cweijan.vscode-database-client2",
+				# Geral
+				"mads-hartmann.bash-ide-vscode",
+				"ritwickdey.liveserver",
+				"ms-vsliveshare.vsliveshare",
+				"yzhang.markdown-all-in-one",
+				"ms-ceintl.vscode-language-pack-pt-BR",
+				"ms-vscode.powershell",
+				"ms-vscode-remote.remote-ssh",
+				"ms-vscode-remote.remote-ssh-edit",
+				"ms-vscode-remote.remote-explorer",
+				"ms-vscode-remote.remote-wsl",
+				"foxundermoon.shell-format",
+				"alexcvzz.vscode-sqlite",
+				"rangav.vscode-thunder-client",
+				"grapecity.gc-excelviewer",
+				"mechatroner.rainbow-csv"
+			)
+
+			$instaladas = code --list-extensions
+
+			foreach ($ext in $extensoes) {
+				if ($instaladas -notcontains $ext) {
+					Write-Host "Instalando $ext..."
+					code --install-extension $ext
+				} else {
+					Write-Host "$ext ja instalada"
+				}
+			}
+		
+			Write-Host ""
+			Write-Host "Instalacao concluida!"
+			Write-Host ""
+		}
+
+# ===========================================================
+# COLA POWER SHELL
+# ===========================================================
 		"cola_vscode" {
 				Write-Host ""
 				Write-Host "=== COMANDOS VSCODE ==="
@@ -178,7 +411,9 @@ function z {
 				Write-Host "ls C:\Users *documen* -File -Recurse       # pesquisa por arquivos com trecho %documen%"
 		}
 
-		# =================================== COLA DE LISTA DE COMANDOS GIT ===================================
+# ===========================================================
+# COLA GIT
+# ===========================================================
 		"cola_git" {
 			Write-Host ""
 			Write-Host "=== COMANDOS GIT ==="
@@ -288,8 +523,9 @@ function z {
 			Write-Host ""
 		}
 
-
-		# =================================== COMANDOS GIT ===================================
+# ===========================================================
+# GIT E GITHUB
+# ===========================================================
 		"git_status" { git status }
 		"git_add" { git add . }
 		"git_commit" { 
@@ -422,53 +658,11 @@ function z {
 			$arquivo = Read-Host "Arquivo para remover"
 			git rm $arquivo
 		}
-		# =================================== PYTHON ===================================
-		# =================================== INSTALAR EXTESÕES PYTHON ===================================
-		"py_inst_exten_py_sql" {
 
-			Write-Host ""
-			Write-Host "Instalando extensoes Python + SQL..."
-			Write-Host ""
+# ===========================================================
+# PYTHON
+# ===========================================================
 
-			$extensoes = @(
-				"ms-python.python",
-				"ms-python.vscode-pylance",
-				"mssql.mssql",
-				"mtxr.sqltools",
-				"ms-toolsai.jupyter",
-				"ms-toolsai.datawrangler",
-				"njpwerner.autodocstring",
-				"kevinrose.vsc-python-indent",
-				"njpwerner.autodocstring",
-				"coenraads.bracket-pair-colorizer-2",
-				"christian-kohler.path-intellisense",
-				"littlefoxteam.vscode-python-test-adapter",
-				"ms-python.black-formatter",
-				"ms-python.isort",
-				"ms-python.flake8",
-				"ms-python.debugpy",
-				"cweijan.vscode-database-client2",
-				"grapecity.gc-excelviewer",
-				"mechatroner.rainbow-csv"
-			)
-
-			$instaladas = code --list-extensions
-
-			foreach ($ext in $extensoes) {
-				if ($instaladas -notcontains $ext) {
-					Write-Host "Instalando $ext..."
-					code --install-extension $ext
-				} else {
-					Write-Host "$ext ja instalada"
-				}
-			}
-
-			Write-Host ""
-			Write-Host "Instalacao concluida!"
-			Write-Host ""
-		}
-
-		# =================================== VERIFICAR PYTHON ===================================
 		"py_verificar_python" {
 		Write-Host "`n=== VERIFICAÇÃO DO AMBIENTE PYTHON ===" -ForegroundColor Cyan
 		
@@ -491,7 +685,6 @@ function z {
 		Write-Host "`n=== FIM ===" -ForegroundColor Cyan
 		}
 
-		# =================================== INSTALAR PYTHON ===================================
 		"py_instalar_python" {
 
 		Write-Host ""
@@ -531,80 +724,185 @@ function z {
 		Write-Host ""
 		}
 
-		# =================================== AMBIENTE PYTHON ===================================
-		# =================================== AMBIENTE PYTHON ===================================
+		"py_venv_criar" { 
+			Write-Host "Criando ambiente virtual .venv..." -ForegroundColor Yellow
+			python -m venv .venv
+			Write-Host "Ambiente criado! Para ativar:" -ForegroundColor Green
+			Write-Host ".\.venv\Scripts\Activate" -ForegroundColor Cyan
+		}
 
-# Criar ambiente virtual .venv na pasta atual
-"py_venv_criar" { 
-    Write-Host "Criando ambiente virtual .venv..." -ForegroundColor Yellow
-    python -m venv .venv
-    Write-Host "Ambiente criado! Para ativar:" -ForegroundColor Green
-    Write-Host ".\.venv\Scripts\Activate" -ForegroundColor Cyan
-}
+		"py_venv_ativar" { 
+			if (Test-Path ".\.venv\Scripts\Activate") {
+				.\.venv\Scripts\Activate
+				Write-Host "Ambiente .venv ATIVADO!" -ForegroundColor Green
+				Write-Host "Para desativar: deactivate" -ForegroundColor Yellow
+			} else {
+				Write-Host "Pasta .venv NAO encontrada! Crie com: z py_venv_criar" -ForegroundColor Red
+			}
+		}
 
-# Ativar ambiente virtual .venv
-"py_venv_ativar" { 
-    if (Test-Path ".\.venv\Scripts\Activate") {
-        .\.venv\Scripts\Activate
-        Write-Host "Ambiente .venv ATIVADO!" -ForegroundColor Green
-        Write-Host "Para desativar: deactivate" -ForegroundColor Yellow
-    } else {
-        Write-Host "Pasta .venv NAO encontrada! Crie com: z py_criar_venv" -ForegroundColor Red
-    }
-}
+		"py_requirements_instalar" { 
+			if (Test-Path "requirements.txt") {
+				Write-Host "Instalando pacotes do requirements.txt..." -ForegroundColor Yellow
+				pip install -r requirements.txt
+			} else {
+				Write-Host "Arquivo requirements.txt NAO encontrado!" -ForegroundColor Red
+			}
+		}
 
-# Instalar requirements (se existir)
-"py_requirements_instalar" { 
-    if (Test-Path "requirements.txt") {
-        Write-Host "Instalando pacotes do requirements.txt..." -ForegroundColor Yellow
-        pip install -r requirements.txt
-    } else {
-        Write-Host "Arquivo requirements.txt NAO encontrado!" -ForegroundColor Red
-    }
-}
+		"py_requirements_congelar" { 
+			Write-Host "Gerando requirements.txt com pacotes atuais..." -ForegroundColor Yellow
+			pip freeze > requirements.txt
+			Write-Host "Arquivo requirements.txt CRIADO!" -ForegroundColor Green
+		}
 
-# Gerar requirements (congelar pacotes)
-"py_requirements_congelar" { 
-    Write-Host "Gerando requirements.txt com pacotes atuais..." -ForegroundColor Yellow
-    pip freeze > requirements.txt
-    Write-Host "Arquivo requirements.txt CRIADO!" -ForegroundColor Green
-}
+		"py_requirements_baixar" { 
+			Write-Host "Instalando requirements.txt com pacotes necessários ao projeto..." -ForegroundColor Yellow
+			pip install -r requirements.txt
+			Write-Host "Arquivo requirements.txt BAIXADOS!" -ForegroundColor Green
+		}
 
-# Instalar requirements 
-"py_requirements_baixar" { 
-    Write-Host "Instalando requirements.txt com pacotes necessários ao projeto..." -ForegroundColor Yellow
-    pip install -r requirements.txt
-    Write-Host "Arquivo requirements.txt BAIXADOS!" -ForegroundColor Green
-}
+# ===========================================================
+# RUST
+# ===========================================================
 
-# =================================== RUST ===================================
+		"rs_instalar_completo" {
+			Write-Host "`n=== INSTALACAO COMPLETA DO RUST ===" -ForegroundColor Cyan
+			
+			# 1) Instalar Rust
+			Write-Host "`n1. Instalando Rust..." -ForegroundColor Yellow
+			winget install Rustlang.Rustup
+			
+			# 2) Instalar Build Tools C++
+			Write-Host "`n2. Instalando Ferramentas de Build do C++..." -ForegroundColor Yellow
+			winget install --id Microsoft.VisualStudio.2022.BuildTools --override "--passive --wait --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
+			
+			# 3) Adicionar ao PATH
+			Write-Host "`n3. Adicionando Rust ao PATH..." -ForegroundColor Yellow
+			[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Users\vinic\.cargo\bin", [EnvironmentVariableTarget]::User)
+			
+			# 4) Verificar instalação
+			Write-Host "`n4. Verificando instalacao..." -ForegroundColor Yellow
+			rustc --version
+			cargo --version
+			
+			Write-Host "`n=== INSTALACAO CONCLUIDA ===" -ForegroundColor Green
+			Write-Host "Reinicie o terminal para aplicar o PATH!" -ForegroundColor Magenta
+		}
 
-		# Instalar Rust
+		"rs_novo_projeto" {
+			$nomeProjeto = Read-Host "Nome do projeto (sem números no início)"
+			Write-Host "`nCriando projeto Rust: $nomeProjeto" -ForegroundColor Yellow
+			cargo new $nomeProjeto --bin
+			Write-Host "Projeto criado! Acesse com: cd $nomeProjeto" -ForegroundColor Green
+		}
+
+		"rs_abrir_cargo_toml" {
+			if (Test-Path "Cargo.toml") {
+				notepad Cargo.toml
+			} else {
+				Write-Host "Arquivo Cargo.toml nao encontrado!" -ForegroundColor Red
+				Write-Host "Execute 'rs_novo_projeto' primeiro ou 'cd' para pasta com projeto Rust" -ForegroundColor Yellow
+			}
+		}
+
+		"rs_abrir_main" {
+			if (Test-Path "src/main.rs") {
+				notepad src/main.rs
+			} else {
+				Write-Host "Arquivo src/main.rs nao encontrado!" -ForegroundColor Red
+				Write-Host "Execute 'rs_novo_projeto' primeiro ou 'cd' para pasta com projeto Rust" -ForegroundColor Yellow
+			}
+		}
+
 		"rs_instal" {
 		Write-Host "`n Instalando Rust:" -ForegroundColor Yellow
 		winget install Rustlang.Rustup
 		}	
 		
-		# Path Rust no PS
 		"rs_path" {
 		Write-Host "`n adicionar a pasta do Rust ao PATH apenas para esta janela:" -ForegroundColor Yellow
 		$env:Path = "C:\Users\vinic\.cargo\bin;$env:Path"
 		}		
 
-		# Arquivo Principal
 		"rs_principal" {
 		Write-Host "`n Arquivo Principal:" -ForegroundColor Yellow
 		notepad src/main.rs
 		}
 
-		# Verifica Instalação
 		"rs_verifica_install" {
 		Write-Host "`n Instalação Rust:" -ForegroundColor Yellow
 		rustc --version
 		cargo --version	
-		}	
+		}
 
-		# =================================== HELP ===================================
+"rs_criar_gitignore" {
+	if (-not (Test-Path ".gitignore")) {
+		@"
+/target/
+Cargo.lock
+*.rs.bk
+*.pdb
+*.exe
+"@ | Out-File -FilePath ".gitignore" -Encoding UTF8
+		Write-Host "Arquivo .gitignore criado!" -ForegroundColor Green
+	} else {
+		Write-Host ".gitignore ja existe!" -ForegroundColor Yellow
+		notepad .gitignore
+	}
+}
+
+		"rs_executar" { cargo run }
+		"rs_construir" { cargo build }
+		"rs_construir_release" { cargo build --release }
+		"rs_testar" { cargo test }
+		"rs_documentar" { cargo doc --open }
+		"rs_limpar" { cargo clean }
+		"rs_atualizar_deps" { cargo update }
+		"rs_adicionar_dependencia" {
+			$crate = Read-Host "Nome da crate (ex: serde, tokio, rand)"
+			Write-Host "Adicionando $crate as dependencias..." -ForegroundColor Yellow
+			cargo add $crate
+		}
+		"rs_verificar" { cargo check }
+		"rs_formatar" { cargo fmt }
+		"rs_analisar" { cargo clippy }
+
+		"rs_help" {
+			Write-Host ""
+			Write-Host "=== COMANDOS RUST DISPONIVEIS ==="
+			Write-Host ""
+			Write-Host "--- INSTALACAO ---"
+			Write-Host "rs_instalar_completo     # Instala Rust + Build Tools C++"
+			Write-Host "rs_verifica_install      # Verifica versoes instaladas"
+			Write-Host "rs_path                  # Adiciona Rust ao PATH (temporario)"
+			Write-Host ""
+			Write-Host "--- PROJETOS ---"
+			Write-Host "rs_novo_projeto          # Cria novo projeto binario"
+			Write-Host "rs_hello_world_io        # Cria projeto Hello World com I/O"
+			Write-Host "rs_abrir_cargo_toml      # Abre Cargo.toml no notepad"
+			Write-Host "rs_abrir_main            # Abre src/main.rs no notepad"
+			Write-Host "rs_criar_gitignore       # Cria .gitignore padrao Rust"
+			Write-Host ""
+			Write-Host "--- EXECUCAO ---"
+			Write-Host "rs_executar              # cargo run"
+			Write-Host "rs_construir             # cargo build"
+			Write-Host "rs_construir_release     # cargo build --release"
+			Write-Host "rs_testar                # cargo test"
+			Write-Host "rs_documentar            # cargo doc --open"
+			Write-Host "rs_limpar                # cargo clean"
+			Write-Host ""
+			Write-Host "--- MANUTENCAO ---"
+			Write-Host "rs_atualizar_deps        # cargo update"
+			Write-Host "rs_adicionar_dependencia # cargo add <crate>"
+			Write-Host "rs_verificar             # cargo check"
+			Write-Host "rs_formatar              # cargo fmt"
+			Write-Host "rs_analisar              # cargo clippy"
+			Write-Host ""
+		}
+# ===========================================================
+# HELP
+# ===========================================================
 		"help" {
 				Write-Host ""
 				Write-Host "=== USE SNIPPETS ==="
@@ -623,23 +921,39 @@ function z {
     }
 }
 
-		# =================================== AUTOCOMPLETE ===================================
+# ===========================================================
+# AUTOCOMPLETE
+# ===========================================================
 Register-ArgumentCompleter -CommandName z -ParameterName comando -ScriptBlock {
     param($commandName, $parameterName, $wordToComplete)
 
     $comandos = @(
-    "cola_vscode","cola_git","help","nav_buscar_por_nome","nav_desktop","nav_downloads","nav_home","nav_listar","nav_listar_ocultos","nav_listar_so_pastas","nav_listar_so_arquivos",
-	"nav_listar_recursivo","nav_volta_1_diretorio","nav_volta_2_diretorios","nav_volta_desktop","nav_volta_home","nav_onde_estou?","sys_bateria","sys_bios","sys_bluetooth",
-	"sys_diagnostico_bluetooth","sys_chrome_modo_debug","sys_cpu","sys_disco_espaco","sys_discoinfo","sys_discos","sys_edge_modo_debug","sys_edge_encerar_processos","sys_edge_ouvindo_porta",
-	"sys_edge_verificacao","sys_gpu","sys_impressoras","sys_ip","sys_ip_geral","sys_memoria_slots","sys_memorias",
-	"sys_modelo_pc","sys_particoes","sys_placa_mae","sys_programas_instalados","sys_rede","sys_sistema_operacional","sys_som","sys_usb","sys_usuarios",
-	"sys_abre_snippet_notepad","sys_abre_snippet_vscode","sys_atualizar_snippet","sys_inst_exten_inic_vscode","git_status","git_add","git_commit","git_push","git_pull",
-	"git_log","git_branch","git_checkout","git_diff","git_stash","git_stash_pop","git_init","git_log_oneline","git_log_author","git_log_before","git_log_after",
-	"git_restore_staged","git_reset_hard","git_reset_soft","git_amend","git_revert","git_branch_D","git_merge","git_checkout_b","git_clone","git_remote_v",
-	"git_remote_add","git_push_u","git_pull_origin","git_fetch","git_rebase","git_tag","git_tag_v","git_tag_push","git_checkout_tag","git_switch_c",
-	"git_checkout_detached_fix","git_checkout_head","git_checkout_head_arquivo","git_config_user","git_config_global","git_credential_store","git_credential_unset",
-	"git_credential_unset_global","git_ignore_criar","git_status_ignore","git_mv","git_rm","py_inst_exten_py_sql","py_verificar_python","py_instalar_python","py_venv_criar",
-	"py_venv_ativar","py_requirements_baixar","py_requirements_instalar","py_requirements_congelar","rs_instal","rs_path","rs_principal","rs_verifica_install"
+		# Navegação
+		"nav_buscar_por_nome","nav_desktop","nav_downloads","nav_home","nav_listar","nav_listar_ocultos","nav_listar_so_pastas","nav_listar_so_arquivos",
+		"nav_listar_recursivo","nav_volta_1_diretorio","nav_volta_2_diretorios","nav_volta_desktop","nav_volta_home","nav_onde_estou?",
+		# Sistema
+		"sys_bateria","sys_bios","sys_bluetooth","sys_diagnostico_bluetooth","sys_chrome_modo_debug","sys_cpu","sys_disco_espaco","sys_discoinfo",
+		"sys_discos","sys_edge_modo_debug","sys_edge_encerar_processos","sys_edge_ouvindo_porta","sys_edge_verificacao","sys_gpu","sys_impressoras",
+		"sys_ip","sys_ip_geral","sys_memoria_slots","sys_memorias","sys_modelo_pc","sys_particoes","sys_placa_mae","sys_programas_instalados",
+		"sys_rede","sys_sistema_operacional","sys_som","sys_usb","sys_usuarios","sys_abre_snippet_notepad","sys_abre_snippet_vscode","sys_atualizar_snippet",
+		# Extensões
+		"exten_git","exten_c","exten_python","exten_sql","exten_rust","exten_geral","exten_todas",
+		# Colas
+		"cola_vscode","cola_git",
+		# Git
+		"git_status","git_add","git_commit","git_push","git_pull","git_log","git_branch","git_checkout","git_diff","git_stash","git_stash_pop","git_init",
+		"git_log_oneline","git_log_author","git_log_before","git_log_after","git_restore_staged","git_reset_hard","git_reset_soft","git_amend","git_revert",
+		"git_branch_D","git_merge","git_checkout_b","git_clone","git_remote_v","git_remote_add","git_push_u","git_pull_origin","git_fetch","git_rebase",
+		"git_tag","git_tag_v","git_tag_push","git_checkout_tag","git_switch_c","git_checkout_detached_fix","git_checkout_head","git_checkout_head_arquivo",
+		"git_config_user","git_config_global","git_credential_store","git_credential_unset","git_credential_unset_global","git_ignore_criar","git_status_ignore","git_mv","git_rm",
+		# Python
+		"py_verificar_python","py_instalar_python","py_venv_criar","py_venv_ativar","py_requirements_instalar","py_requirements_congelar","py_requirements_baixar",
+		# Rust
+		"rs_instalar_completo","rs_novo_projeto","rs_abrir_cargo_toml","rs_abrir_main","rs_instal","rs_path","rs_principal","rs_verifica_install","rs_criar_gitignore",
+		"rs_executar","rs_construir","rs_construir_release","rs_testar","rs_documentar","rs_limpar","rs_atualizar_deps","rs_adicionar_dependencia","rs_verificar",
+		"rs_formatar","rs_analisar","rs_help",
+		# Help
+		"help"
 	)
 
     $comandos | Where-Object { $_ -like "$wordToComplete*" } |
@@ -648,16 +962,22 @@ Register-ArgumentCompleter -CommandName z -ParameterName comando -ScriptBlock {
     }
 }
 
-		# =================================== MENU COM TAB ===================================
+# ===========================================================
+# MENU COM TAB
+# ===========================================================
 Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 
-		# =================================== MENSAGEM quando abre o terminal ===================================
+# ===========================================================
+# MENSAGEM quando abre o terminal
+# ===========================================================
 Write-Host "Perfil PowerShell carregado!" -ForegroundColor Green 
 
-		# =================================== ENDEREÇO onde o VSCode pesquisa o arquivo com snippets ===================================
+# ===========================================================
+# ENDEREÇO onde o VSCode pesquisa o arquivo com snippets
+# ===========================================================
 function code {
     # mude o caminho do usuário: 
-	#C:\Users\vinic\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd
-	#C:\Users\marcus.silva05\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd
+	# C:\Users\vinic\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd
+	# C:\Users\marcus.silva05\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd
     & "C:\Users\vinic\AppData\Local\Programs\Microsoft VS Code\bin\code.cmd" @args
 }
