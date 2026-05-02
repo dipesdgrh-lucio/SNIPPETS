@@ -524,6 +524,67 @@ function z {
 		}
 
 # ===========================================================
+# API TEST - SERVIÇOS PÚBLICOS PARA TESTES HTTP
+# ===========================================================
+		"cola_api_test" {
+				Write-Host ""
+				Write-Host "=== SERVIÇOS PÚBLICOS PARA TESTES DE API HTTP ==="
+				Write-Host ""
+				Write-Host "--- HTTPBIN (https://httpbin.org) ---"
+				Write-Host "/get                           # Requisição GET com parâmetros"
+				Write-Host "/headers                      # Mostra os headers enviados"
+				Write-Host "/ip                           # Retorna seu IP público"
+				Write-Host "/user-agent                   # Mostra seu User-Agent"
+				Write-Host "/status/404                   # Retorna erro 404"
+				Write-Host "/status/500                   # Retorna erro 500"
+				Write-Host "/delay/3                      # Espera 3 segundos antes de responder"
+				Write-Host "/anything                     # Ecoa qualquer requisição"
+				Write-Host "/base64/SGVsbG8gV29ybGQ=      # Decodifica Base64"
+				Write-Host ""
+				Write-Host "--- JSONPLACEHOLDER (https://jsonplaceholder.typicode.com) ---"
+				Write-Host "/posts/1                      # Post com ID 1"
+				Write-Host "/posts                        # Todos os posts"
+				Write-Host "/comments/1                   # Comentário com ID 1"
+				Write-Host "/users/1                      # Usuário com ID 1"
+				Write-Host "/todos/1                      # Tarefa com ID 1"
+				Write-Host "/albums/1/photos              # Fotos do álbum 1"
+				Write-Host ""
+				Write-Host "--- REQRES (https://reqres.in) ---"
+				Write-Host "/api/users/2                  # Usuário com ID 2"
+				Write-Host "/api/users?page=2             # Paginação de usuários"
+				Write-Host "/api/users/23                 # Usuário inexistente (404)"
+				Write-Host "/api/unknown/2                # Recurso desconhecido"
+				Write-Host "/api/register                 # Teste de registro (POST)"
+				Write-Host "/api/login                    # Teste de login (POST)"
+				Write-Host "/api/users/2?delay=3          # Atraso de 3 segundos"
+				Write-Host ""
+				Write-Host "--- MOCKY (https://mocky.io) ---"
+				Write-Host "# Crie respostas personalizadas:"
+				Write-Host "1. Acesse https://mocky.io"
+				Write-Host "2. Cole seu JSON de resposta"
+				Write-Host "3. Clique em 'Generate my HTTP response'"
+				Write-Host "4. Use a URL gerada no seu código"
+				Write-Host ""
+				Write-Host "--- BEECEPTOR (https://beeceptor.com) ---"
+				Write-Host "# Simule qualquer API:"
+				Write-Host "1. Acesse https://beeceptor.com"
+				Write-Host "2. Crie um endpoint (ex: minha-api)"
+				Write-Host "3. Use: https://minha-api.free.beeceptor.com"
+				Write-Host "4. Veja as requisições recebidas no dashboard"
+				Write-Host ""
+				Write-Host "--- EXEMPLOS DE TESTE COM CURL ---"
+				Write-Host "curl https://httpbin.org/ip"
+				Write-Host "curl https://jsonplaceholder.typicode.com/posts/1"
+				Write-Host "curl https://reqres.in/api/users/2"
+				Write-Host ""
+				Write-Host "--- TESTANDO COM RUST (projeto rs05_cliente_http) ---"
+				Write-Host "cargo run"
+				Write-Host "# Digite: https://httpbin.org/ip"
+				Write-Host "# Digite: https://jsonplaceholder.typicode.com/posts/1"
+				Write-Host ""
+		}
+
+# ===========================================================
 # GIT E GITHUB
 # ===========================================================
 		"git_status" { git status }
@@ -939,7 +1000,7 @@ Register-ArgumentCompleter -CommandName z -ParameterName comando -ScriptBlock {
 		# Extensões
 		"exten_git","exten_c","exten_python","exten_sql","exten_rust","exten_geral","exten_todas",
 		# Colas
-		"cola_vscode","cola_git",
+		"cola_api_test","cola_vscode","cola_git",
 		# Git
 		"git_status","git_add","git_commit","git_push","git_pull","git_log","git_branch","git_checkout","git_diff","git_stash","git_stash_pop","git_init",
 		"git_log_oneline","git_log_author","git_log_before","git_log_after","git_restore_staged","git_reset_hard","git_reset_soft","git_amend","git_revert",
