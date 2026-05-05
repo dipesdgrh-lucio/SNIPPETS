@@ -1156,11 +1156,7 @@
         "    COD_UGE                  ,",
         "    DS_HIERARQUIA_EDUC        ",
         "FROM SAS.[022026].pap_ua ",
-        "WHERE COD_UNID_ADM IN ( ",
-        "    SELECT ",
-        "        UA",
-        "    FROM CEPEA_SAS.dbo.[00_UA${1:03}26] -- Filtro de UA",
-        ") "
+        ""
     ],
     "description": "SAS_PAPUA"
 },
