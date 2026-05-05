@@ -759,8 +759,7 @@
     "scope": "sql",
     "prefix": "ZDDALTERTIPO",
     "body": [
-      "ALTER TABLE ${1:tabela}",    
-      "${6:ALTER COLUMN ${2:coluna1} ${3:TIPO}(${4:tamanho}) NULL ${5:-- VERIFICAR ZCOLA}}"
+      "ALTER TABLE ${1:tabela} ${6:ALTER COLUMN ${2:coluna1} ${3:TIPO}(${4:tamanho}) NULL ${5:-- VERIFICAR ZCOLA}}"
       ],
     "description": "ALTERAR O TIPO DE DADO DA COLUNA"
   },
@@ -1155,7 +1154,7 @@
         "    COD_UNID_ADM_VINC_MRT    ,",
         "    COD_UGE                  ,",
         "    DS_HIERARQUIA_EDUC        ",
-        "FROM SAS.[022026].pap_ua ",
+        "FROM SAS.[${1:02}2026].pap_ua ",
         ""
     ],
     "description": "SAS_PAPUA"
